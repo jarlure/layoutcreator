@@ -1,0 +1,23 @@
+<!ELEMENT Layout (Picture*,Node*,ProgressBar*,Slider*,Panel*,ScrollBar*,Dialog*)>
+
+<!ELEMENT Picture (img*,child*)>
+<!ATTLIST Picture name CDATA #REQUIRED>
+<!ELEMENT Node (img*,child*)>
+<!ATTLIST Node name CDATA #REQUIRED>
+<!ATTLIST Node link CDATA #IMPLIED> <!-- 表示该组件是另一个Layout的Node，此处填写该Layout的名称 -->
+<!ELEMENT ProgressBar (img*,child*)>
+<!ATTLIST ProgressBar name CDATA #REQUIRED>
+<!ELEMENT Slider (img*,child*)>
+<!ATTLIST Slider name CDATA #REQUIRED>
+<!ELEMENT Panel (img*,child*)>
+<!ATTLIST Panel name CDATA #REQUIRED>
+<!ELEMENT ScrollBar (img*,child*)>
+<!ATTLIST ScrollBar name CDATA #REQUIRED>
+<!ELEMENT Dialog (img*,child*)>
+<!ATTLIST Dialog name CDATA #REQUIRED>
+
+<!ELEMENT img EMPTY>
+<!ATTLIST img name CDATA #REQUIRED>
+<!ATTLIST img url CDATA #IMPLIED> <!-- 允许设置已存在的图片名与其共用同一张图片，或设置为""表示无图片 -->
+<!ELEMENT child EMPTY>
+<!ATTLIST child name CDATA #REQUIRED>

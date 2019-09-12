@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Layout SYSTEM "layout.dtd">
+<Layout>
+    <!-- 保存提示框 -->
+    <Dialog name="saveTipDialog">
+        <child name="saveTipDialogYesButton"/>
+        <child name="saveTipDialogNoButton"/>
+        <child name="saveTipDialogCloseButton"/>
+        <child name="saveTipDialogBackground"/>
+    </Dialog>
+    <Picture name="saveTipDialogYesButton">
+        <img name="是√"/>
+        <img name="按下$190710aG"/>
+        <img name="默认$190710az"/>
+    </Picture>
+    <Picture name="saveTipDialogNoButton">
+        <img name="否√"/>
+        <img name="按下√"/>
+        <img name="默认√"/>
+    </Picture>
+    <Picture name="saveTipDialogCloseButton">
+        <img name="关闭按钮$190710Hh" url=""/>
+    </Picture>
+    <Picture name="saveTipDialogBackground">
+        <img name="对话框√"/>
+    </Picture>
+
+    <!-- 菜单栏:文件 -->
+    <Node name="submenuFile">
+        <child name="submenuFileOpen"/>
+        <child name="submenuFileClose"/>
+        <child name="submenuFileSave"/>
+        <child name="submenuFileSaveTo"/>
+        <child name="submenuFileQuit"/>
+        <child name="submenuFileBackground"/>
+    </Node>
+    <Picture name="submenuFileOpen">
+        <img name="打开√"/>
+        <img name="打开√" url=""/>
+    </Picture>
+    <Picture name="submenuFileClose">
+        <img name="关闭√"/>
+        <img name="关闭$190710WM"/>
+    </Picture>
+    <Picture name="submenuFileSave">
+        <img name="存储√"/>
+        <img name="存储$190710NL"/>
+    </Picture>
+    <Picture name="submenuFileSaveTo">
+        <img name="存储为√"/>
+        <img name="存储为$1907105_"/>
+    </Picture>
+    <Picture name="submenuFileQuit">
+        <img name="退出√"/>
+        <img name="退出√" url=""/>
+    </Picture>
+    <Picture name="submenuFileBackground">
+        <img name="子菜单$190623pR"/>
+    </Picture>
+    <Picture name="menuFile">
+        <img name="选中$190623S2"/>
+        <img name="移入$190628_7"/>
+        <img name="移入$190628_7" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:编辑 -->
+    <Node name="submenuEdit">
+        <child name="submenuEditRedo"/>
+        <child name="submenuEditUndo"/>
+        <child name="submenuEditBackground"/>
+    </Node>
+    <Picture name="submenuEditRedo">
+        <img name="前进一步$190623tw"/>
+        <img name="前进一步√"/>
+    </Picture>
+    <Picture name="submenuEditUndo">
+        <img name="后退一步$190623No"/>
+        <img name="后退一步√"/>
+    </Picture>
+    <Picture name="submenuEditBackground">
+        <img name="子菜单$190623FV"/>
+    </Picture>
+    <Picture name="menuEdit">
+        <img name="选中$190623XJ"/>
+        <img name="移入$190628Xs"/>
+        <img name="移入$190628Xs" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:图像 -->
+    <Picture name="submenuImage">
+        <img name="子菜单$190623_T"/>
+    </Picture>
+    <Picture name="menuImage">
+        <img name="选中$190623PI"/>
+        <img name="移入$190628Ky"/>
+        <img name="移入$190628Ky" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:图层 -->
+    <Picture name="submenuLayer">
+        <img name="子菜单$190623ny"/>
+    </Picture>
+    <Picture name="menuLayer">
+        <img name="选中$190623am"/>
+        <img name="移入$190628YW"/>
+        <img name="移入$190628YW" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:文字 -->
+    <Picture name="submenuType">
+        <img name="子菜单$19062323"/>
+    </Picture>
+    <Picture name="menuType">
+        <img name="选中$190623dn"/>
+        <img name="移入$1906283F"/>
+        <img name="移入$1906283F" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:选择 -->
+    <Picture name="submenuSelect">
+        <img name="子菜单$190623PI"/>
+    </Picture>
+    <Picture name="menuSelect">
+        <img name="选中$190623Tt"/>
+        <img name="移入$190628fb"/>
+        <img name="移入$190628fb" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:滤镜 -->
+    <Picture name="submenuFilter">
+        <img name="子菜单$190623Iw"/>
+    </Picture>
+    <Picture name="menuFilter">
+        <img name="选中$190623UX"/>
+        <img name="移入$190628Ei"/>
+        <img name="移入$190628Ei" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:3D -->
+    <Picture name="submenu3D">
+        <img name="子菜单$1906239I"/>
+    </Picture>
+    <Picture name="menu3D">
+        <img name="选中$190623r_"/>
+        <img name="移入$190628WH"/>
+        <img name="移入$190628WH" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:视图 -->
+    <Picture name="submenuView">
+        <img name="子菜单$190623fO"/>
+    </Picture>
+    <Picture name="menuView">
+        <img name="选中$1906238r"/>
+        <img name="移入$190623lT"/>
+        <img name="移入$190623lT" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:窗口 -->
+    <Picture name="submenuWindow">
+        <img name="子菜单$190623Y2"/>
+    </Picture>
+    <Picture name="menuWindow">
+        <img name="选中$190623H9"/>
+        <img name="移入√"/>
+        <img name="移入√" url=""/>
+    </Picture>
+
+    <!-- 菜单栏:帮助 -->
+    <Picture name="submenuHelp">
+        <img name="子菜单√"/>
+    </Picture>
+    <Picture name="menuHelp">
+        <img name="选中√"/>
+        <img name="移入$190628dC"/>
+        <img name="移入$190628dC" url=""/>
+    </Picture>
+
+    <!-- 弹出框 -->
+    <Picture name="showComponentPanelDialogButton">
+        <img name="选中$190710_f"/>
+        <img name="移入$1907109w"/>
+        <img name="移入$1907109w" url=""/>
+    </Picture>
+    <!-- 组件弹出框 -->
+    <Picture name="insertTipUpperLine">
+    <img name="提示线（上）√"/>
+    </Picture>
+    <Picture name="insertTipCenterBox">
+    <img name="提示框√"/>
+    </Picture>
+    <Picture name="insertTipLowerLine">
+    <img name="提示线（下）√"/>
+    </Picture>
+    <Panel name="componentItem">
+        <child name="componentFoldButton"/>
+        <child name="componentIcon"/>
+        <child name="componentNameText"/>
+        <child name="componentItemBackground"/>
+    </Panel>
+    <Panel name="imgItem">
+        <child name="imgSelectedIcon"/>
+        <child name="imgIcon"/>
+        <child name="componentNameText"/>
+        <child name="componentItemBackground"/>
+    </Panel>
+    <Picture name="componentFoldButton">
+        <img name="展开折叠选中区域$190710x1" url=""/>
+    </Picture>
+    <Picture name="componentIcon">
+        <img name="折叠图标$190713hH"/>
+        <img name="展开图标$190713zs"/>
+    </Picture>
+    <Picture name="imgSelectedIcon">
+        <img name="图片图标选中框√"/>
+    </Picture>
+    <Picture name="imgIcon">
+        <img name="图片图标$190802bc"/>
+    </Picture>
+    <Picture name="componentNameTextEdit">
+        <img name="组件名编辑框√"/>
+    </Picture>
+    <Picture name="componentNameText">
+        <img name="组件名√"/>
+    </Picture>
+    <Picture name="componentItemBackground">
+        <img name="背景（选中）$1907100p"/>
+        <img name="背景$190710tn"/>
+    </Picture>
+    <Picture name="secondComponentIconPosition">
+        <img name="图片图标√" url=""/>
+    </Picture>
+    <Dialog name="componentDialog">
+        <child name="componentScrollBar"/>
+        <child name="componentPanel"/>
+        <child name="addComponentButton"/>
+        <child name="addImgButton"/>
+        <child name="deleteComponentButton"/>
+        <child name="componentDialogBackground"/>
+    </Dialog>
+    <ScrollBar name="componentScrollBar">
+        <child name="componentScrollUpArrow"/>
+        <child name="componentScroll"/>
+        <child name="componentScrollDownArrow"/>
+    </ScrollBar>
+    <Picture name="componentScrollUpArrow">
+        <img name="上箭头$190710zj"/>
+    </Picture>
+    <Picture name="componentScroll">
+        <img name="滚动条$190710N9"/>
+    </Picture>
+    <Picture name="componentScrollDownArrow">
+        <img name="下箭头$190710FX"/>
+    </Picture>
+    <Panel name="componentPanel">
+        <img name="背景$190711H8" url=""/>
+        <img name="背景$190710tn" url=""/>
+        <img name="背景$190710ak"/>
+    </Panel>
+    <Picture name="addComponentButton">
+        <img name="添加组件（选中）√"/>
+        <img name="添加组件（移入）√"/>
+        <img name="添加组件（可用）√"/>
+    </Picture>
+    <Picture name="addImgButton">
+        <img name="添加图片（选中）√"/>
+        <img name="添加图片（移入）√"/>
+        <img name="添加图片（可用）√"/>
+    </Picture>
+    <Picture name="deleteComponentButton">
+        <img name="删除（选中）√"/>
+        <img name="删除（移入）√"/>
+        <img name="删除（可用）√"/>
+    </Picture>
+    <Picture name="componentDialogBackground">
+        <img name="背景$190809Uc"/>
+    </Picture>
+    <!-- 属性弹出框 -->
+    <Dialog name="propertyDialog">
+        <child name="componentPropertyContent"/>
+        <child name="imgPropertyContent"/>
+        <child name="propertyDialogBackground"/>
+    </Dialog>
+    <Node name="componentPropertyContent">
+        <child name="componentPropertyType"/>
+        <child name="componentPropertyTextEdit"/>
+        <child name="componentPropertyNameText"/>
+        <child name="componentPropertyLinkText"/>
+        <child name="componentPropertyBackground"/>
+    </Node>
+    <Node name="componentPropertyType">
+        <child name="componentPropertyTypeListPanel"/>
+        <child name="componentPropertyTypeText"/>
+        <child name="componentPropertyTypeButton"/>
+    </Node>
+    <Picture name="componentPropertyTypeListSelectItem">
+        <img name="选中$190812UJ"/>
+    </Picture>
+    <Picture name="componentPropertyTypeListItem">
+        <img name="子菜单1√"/>
+    </Picture>
+    <Panel name="componentPropertyTypeListPanel">
+        <img name="子菜单位置2√" url=""/>
+        <img name="子菜单位置1√" url=""/>
+        <img name="背景$1908091e"/>
+    </Panel>
+    <Picture name="componentPropertyTypeText">
+        <img name="文本框背景（选中）$190809xk"/>
+        <img name="文本框背景$1908090b"/>
+    </Picture>
+    <Picture name="componentPropertyTypeButton">
+        <img name="下拉按钮（选中）√"/>
+        <img name="下拉按钮√"/>
+    </Picture>
+    <Picture name="componentPropertyTextEdit">
+        <img name="文本框背景（选中） $190809mg"/>
+    </Picture>
+    <Picture name="componentPropertyNameText">
+        <img name="文本框背景$190809zZ"/>
+    </Picture>
+    <Picture name="componentPropertyLinkText">
+        <img name="文本框背景$190809fZ"/>
+    </Picture>
+    <Picture name="componentPropertyBackground">
+        <img name="type√"/>
+        <img name="分隔线1$190809i4"/>
+        <img name="name$190809iQ"/>
+        <img name="分隔线2$190809uz"/>
+        <img name="link√"/>
+        <img name="分隔线3√"/>
+    </Picture>
+    <Node name="imgPropertyContent">
+        <child name="imgPropertyName"/>
+        <child name="imgPropertyUrl"/>
+        <child name="imgPropertyBackground"/>
+    </Node>
+    <Node name="imgPropertyName">
+        <child name="imgPropertyNameText"/>
+        <child name="imgPropertyNameQuoteButton"/>
+    </Node>
+    <Picture name="imgPropertyNameText">
+        <img name="文本框背景$190809bS"/>
+    </Picture>
+    <Picture name="imgPropertyNameQuoteButton">
+        <img name="引用按钮（选中）$190809MS"/>
+        <img name="引用按钮$190809E8"/>
+    </Picture>
+    <Node name="imgPropertyUrl">
+        <child name="imgPropertyUrlEnableCheckBox"/>
+        <child name="imgPropertyUrlText"/>
+        <child name="imgPropertyUrlQuoteButton"/>
+    </Node>
+    <Picture name="imgPropertyUrlEnableCheckBox">
+        <img name="使用√"/>
+        <img name="不使用√"/>
+    </Picture>
+    <Picture name="imgPropertyUrlText">
+        <img name="文本框背景√"/>
+    </Picture>
+    <Picture name="imgPropertyUrlQuoteButton">
+        <img name="引用按钮（选中）√"/>
+        <img name="引用按钮√"/>
+    </Picture>
+    <Picture name="imgPropertyBackground">
+        <img name="name√"/>
+        <img name="分隔线1√"/>
+        <img name="不使用√"/>
+        <img name="url√"/>
+        <img name="文本框背景（禁用） √"/>
+        <img name="分隔线2√"/>
+    </Picture>
+    <Picture name="propertyDialogBackground">
+        <img name="背景$190809A0"/>
+    </Picture>
+
+    <!-- 选项卡 -->
+    <Picture name="fileTabCloseButton">
+        <img name="关闭按钮√"/>
+    </Picture>
+    <Picture name="fileTabBackground">
+        <img name="背景$190623Ok"/>
+    </Picture>
+
+    <!-- 场景 -->
+    <ScrollBar name="sceneHorizontalScrollBar">
+        <child name="sceneScrollLeftArrow"/>
+        <child name="sceneHorizontalScroll"/>
+        <child name="sceneScrollRightArrow"/>
+    </ScrollBar>
+    <Picture name="sceneScrollLeftArrow">
+        <img name="左箭头√"/>
+    </Picture>
+    <Picture name="sceneHorizontalScroll">
+        <img name="滚动条$190623gb"/>
+    </Picture>
+    <Picture name="sceneScrollRightArrow">
+        <img name="右箭头√"/>
+    </Picture>
+    <ScrollBar name="sceneVerticalScrollBar">
+        <child name="sceneScrollUpArrow"/>
+        <child name="sceneVerticalScroll"/>
+        <child name="sceneScrollDownArrow"/>
+    </ScrollBar>
+    <Picture name="sceneScrollUpArrow">
+        <img name="上箭头$190623EU"/>
+    </Picture>
+    <Picture name="sceneVerticalScroll">
+        <img name="滚动条$190623dk"/>
+    </Picture>
+    <Picture name="sceneScrollDownArrow">
+        <img name="下箭头$190623Rr"/>
+    </Picture>
+    <Picture name="scene">
+        <img name="背景色√" url=""/>
+    </Picture>
+
+    <!-- 图层面板 -->
+    <Panel name="layerGroupItem">
+        <child name="layerVisibleIcon"/>
+        <child name="layerGroupFoldButton"/>
+        <child name="layerGroupIcon"/>
+        <child name="layerNameText"/>
+        <child name="layerItemBackground"/>
+    </Panel>
+    <Panel name="layerPreviewItem">
+        <child name="layerVisibleIcon"/>
+        <child name="layerPreviewSelectedIcon"/>
+        <child name="layerPreviewIcon"/>
+        <child name="layerNameText"/>
+        <child name="layerItemBackground"/>
+    </Panel>
+    <Panel name="layerTextItem">
+        <child name="layerVisibleIcon"/>
+        <child name="layerTextSelectedIcon"/>
+        <child name="layerTextIcon"/>
+        <child name="layerNameText"/>
+        <child name="layerItemBackground"/>
+    </Panel>
+    <Picture name="layerVisibleIcon">
+        <img name="不可见√"/>
+        <img name="可见√"/>
+        <img name="不可见（上层级）√"/>
+    </Picture>
+    <Picture name="layerGroupFoldButton">
+        <img name="展开折叠选中区域√" url=""/>
+    </Picture>
+    <Picture name="layerGroupIcon">
+        <img name="折叠图标$190713OJ"/>
+        <img name="展开图标$190713ad"/>
+    </Picture>
+    <Picture name="layerPreviewSelectedIcon">
+        <img name="选中框$190713IA"/>
+    </Picture>
+    <Picture name="layerPreviewIcon">
+        <img name="预览图标$1907133x"/>
+    </Picture>
+    <Picture name="layerTextSelectedIcon">
+        <img name="选中框√"/>
+    </Picture>
+    <Picture name="layerTextIcon">
+        <img name="文本图标$190713ZQ"/>
+    </Picture>
+    <Picture name="layerNameTextEdit">
+        <img name="图层名编辑框√"/>
+    </Picture>
+    <Picture name="layerNameText">
+        <img name="图层名√"/>
+    </Picture>
+    <Picture name="layerItemBackground">
+        <img name="背景（选中）√"/>
+        <img name="背景$190623xd"/>
+    </Picture>
+    <Picture name="secondLayerPreviewIconPosition">
+        <img name="预览图标√" url=""/>
+    </Picture>
+    <ScrollBar name="layerScrollBar">
+        <child name="layerScrollUpArrow"/>
+        <child name="layerScroll"/>
+        <child name="layerScrollDownArrow"/>
+    </ScrollBar>
+    <Picture name="layerScrollUpArrow">
+        <img name="上箭头√"/>
+    </Picture>
+    <Picture name="layerScroll">
+        <img name="滚动条√"/>
+    </Picture>
+    <Picture name="layerScrollDownArrow">
+        <img name="下箭头√"/>
+    </Picture>
+    <Panel name="layerPanel">
+        <img name="背景$1907034G" url=""/>
+        <img name="背景$190623xd" url=""/>
+        <img name="背景$190703R2"/>
+    </Panel>
+
+    <!-- 窗体栏 -->
+    <Picture name="windowMinimizeButton">
+        <img name="选中$1907038y"/>
+        <img name="移入$190703jm"/>
+        <img name="移入$190703jm" url=""/>
+    </Picture>
+    <Picture name="windowCloseButton">
+        <img name="选中$190630aG"/>
+        <img name="移入$190630qv"/>
+        <img name="移入$190630qv" url=""/>
+    </Picture>
+    <Picture name="windowBar">
+        <img name="窗体栏√" url=""/>
+    </Picture>
+
+    <Picture name="background">
+        <img name="背景√"/>
+    </Picture>
+</Layout>
