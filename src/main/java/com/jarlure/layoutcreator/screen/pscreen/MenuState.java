@@ -9,7 +9,7 @@ import com.jarlure.layoutcreator.util.txt.XmlFileCreateRecord;
 import com.jarlure.project.bean.commoninterface.Callback;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.project.state.RecordState;
 import com.jarlure.project.util.filechooser.FileChooser;
@@ -17,11 +17,8 @@ import com.jarlure.project.util.filechooser.filter.FormatFileFilter;
 import com.jarlure.ui.component.UIComponent;
 import com.jarlure.ui.converter.SelectConverter;
 import com.jarlure.ui.effect.SwitchEffect;
-import com.jarlure.ui.input.KeyEvent;
-import com.jarlure.ui.input.KeyInputListener;
-import com.jarlure.ui.input.MouseEvent;
-import com.jarlure.ui.input.MouseInputListener;
-import com.jarlure.ui.property.common.EnumPropertyListener;
+import com.jarlure.ui.input.*;
+import com.jarlure.ui.property.common.CustomPropertyListener;
 import com.jarlure.ui.system.InputManager;
 import com.jme3.input.KeyInput;
 import com.simsilica.es.EntityData;
@@ -96,9 +93,9 @@ public class MenuState extends AbstractScreenState {
         submenuSelectedList.add(editUndoSelected);
     }
 
-    private class SelectEffectOperation implements Operation {
+    private class SelectEffectOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             private UIComponent menuOnMoved;
             private UIComponent menuOnSelected;
@@ -185,9 +182,9 @@ public class MenuState extends AbstractScreenState {
 
     }
 
-    private class OpenFileOperation implements Operation{
+    private class OpenFileOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
@@ -255,10 +252,10 @@ public class MenuState extends AbstractScreenState {
 
     }
 
-    private class SaveFileOperation implements Operation{
+    private class SaveFileOperation extends AbstractOperation {
 
         private EntitySet psdFileSet;
-        private MouseInputListener listener=new MouseInputListener() {
+        private MouseInputListener listener=new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(fileSaveSelected,mouse)){
@@ -267,7 +264,7 @@ public class MenuState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
 
@@ -295,10 +292,10 @@ public class MenuState extends AbstractScreenState {
 
     }
 
-    private class SaveToFileOperation implements Operation{
+    private class SaveToFileOperation extends AbstractOperation {
 
         private EntitySet psdFileSet;
-        private MouseInputListener listener=new MouseInputListener() {
+        private MouseInputListener listener=new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(fileSaveToSelected,mouse)){
@@ -355,10 +352,10 @@ public class MenuState extends AbstractScreenState {
 
     }
 
-    private class CloseFileOperation implements Operation{
+    private class CloseFileOperation extends AbstractOperation {
 
         private EntitySet psdFileSet;
-        private MouseInputListener listener=new MouseInputListener() {
+        private MouseInputListener listener=new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(fileCloseSelected,mouse)){
@@ -370,7 +367,7 @@ public class MenuState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
 
@@ -398,9 +395,9 @@ public class MenuState extends AbstractScreenState {
 
     }
 
-    private class QuitFileOperation implements Operation{
+    private class QuitFileOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(fileQuitSelected, mouse)) {
@@ -411,7 +408,7 @@ public class MenuState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
 
@@ -427,17 +424,17 @@ public class MenuState extends AbstractScreenState {
 
     }
 
-    private class UndoRedoEditOperation implements Operation{
+    private class UndoRedoEditOperation extends AbstractOperation {
 
         private RecordState recordState;
-        private EnumPropertyListener recordOperationListener = new EnumPropertyListener() {
+        private CustomPropertyListener recordOperationListener = new CustomPropertyListener() {
             @Override
             public void propertyChanged(Enum anEnum, Object o, Object o1) {
                 editRedoSelected.setVisible(!recordState.isRedoDisabled());
                 editUndoSelected.setVisible(!recordState.isUndoDisabled());
             }
         };
-        private MouseInputListener mouseListener = new MouseInputListener() {
+        private MouseInputListener mouseListener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(editRedoSelected,mouse)){
@@ -449,10 +446,10 @@ public class MenuState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
-        private KeyInputListener keyListener = new KeyInputListener() {
+        private KeyInputListener keyListener = new KeyInputAdapter() {
             @Override
             public void onKeyPressed(KeyEvent key) {
                 if (key.isAltAndShiftPressed() && key.getCode()== KeyInput.KEY_Z){
@@ -464,7 +461,7 @@ public class MenuState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(KeyInputListener instance) {
+            public void foldAnonymousInnerClassCode(KeyInputAdapter instance) {
             }
         };
 

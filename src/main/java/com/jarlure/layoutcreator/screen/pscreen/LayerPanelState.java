@@ -7,7 +7,7 @@ import com.jarlure.project.component.VaryUIComponent;
 import com.jarlure.project.factory.UIFactory;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.project.state.RecordState;
 import com.jarlure.ui.bean.Direction;
@@ -19,6 +19,7 @@ import com.jarlure.ui.effect.SwitchEffect;
 import com.jarlure.ui.effect.TextEditEffect;
 import com.jarlure.ui.input.KeyInputListener;
 import com.jarlure.ui.input.MouseEvent;
+import com.jarlure.ui.input.MouseInputAdapter;
 import com.jarlure.ui.input.MouseInputListener;
 import com.jarlure.ui.input.extend.TextEditKeyInputListener;
 import com.jarlure.ui.input.extend.TextEditMouseInputListener;
@@ -235,7 +236,7 @@ public class LayerPanelState extends AbstractScreenState {
         return null;
     }
 
-    private class RepeatNameCheckOperation implements Operation{
+    private class RepeatNameCheckOperation extends AbstractOperation {
 
         private EntitySet layerNameSet;
 
@@ -347,10 +348,10 @@ public class LayerPanelState extends AbstractScreenState {
 
     }
 
-    private class VisibleLayerViewOperation implements Operation {
+    private class VisibleLayerViewOperation extends AbstractOperation {
 
         private EntitySet layerVisibleSet;
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
@@ -467,9 +468,9 @@ public class LayerPanelState extends AbstractScreenState {
 
     }
 
-    private class FoldLayerOperation implements Operation {
+    private class FoldLayerOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
@@ -488,7 +489,7 @@ public class LayerPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
 
         };
@@ -567,10 +568,10 @@ public class LayerPanelState extends AbstractScreenState {
 
     }
 
-    private class SelectLayerOperation implements Operation {
+    private class SelectLayerOperation extends AbstractOperation {
 
         private EntitySet layerSelectedSet;
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
@@ -687,7 +688,7 @@ public class LayerPanelState extends AbstractScreenState {
 
     }
 
-    private class ScrollLayerOperation implements Operation {
+    private class ScrollLayerOperation extends AbstractOperation {
 
         private boolean updateScrollSize = false;
         private boolean updateScrollPosition = false;
@@ -737,7 +738,7 @@ public class LayerPanelState extends AbstractScreenState {
                 }
             }
         };
-        private ListPropertyListener<UIComponent> itemAddListener = new ListPropertyListener<UIComponent>() {
+        private ListPropertyListener<UIComponent> itemAddListener = new ListPropertyAdapter<UIComponent>() {
             @Override
             public void propertyAdded(int index, UIComponent[] value) {
                 propertyAdded(index, value[0]);
@@ -764,7 +765,7 @@ public class LayerPanelState extends AbstractScreenState {
                 updateScrollPosition = true;
             }
         };
-        private EnumPropertyListener firstItemListener = (property, oldValue, newValue) -> {
+        private CustomPropertyListener firstItemListener = (property, oldValue, newValue) -> {
             if (scrollBar.get(ScrollConverter.class).getPercentHeight() >= 1) {
                 scrollBar.setVisible(false);
                 return;
@@ -821,13 +822,13 @@ public class LayerPanelState extends AbstractScreenState {
 
     }
 
-    private class RenameLayerOperation implements Operation{
+    private class RenameLayerOperation extends AbstractOperation {
 
         private VaryUIComponent selectedItemNameText=new VaryUIComponent();
         private FocusProperty focusProperty=new FocusProperty();
         private Property<Integer> selectFromIndex=new Property<>();
         private Property<Integer> cursorPositionIndex=new Property<>();
-        private MouseInputListener nameTextSelectedListener = new MouseInputListener() {
+        private MouseInputListener nameTextSelectedListener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonDoubleClick(MouseEvent mouse) {
                 if (selectConverter.isSelect(PSLayout.LAYER_NAME_TEXT,mouse)){
@@ -840,7 +841,7 @@ public class LayerPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
         private PropertyListener<UIComponent> selectedItemNameTextChangedListener = (oldValue, newValue) -> {

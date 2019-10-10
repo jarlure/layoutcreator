@@ -2,8 +2,8 @@ package com.jarlure.layoutcreator.factory;
 
 import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.project.bean.LayerImageData;
+import com.jarlure.project.factory.AbstractUIFactory;
 import com.jarlure.project.factory.DefaultUIFactory;
-import com.jarlure.project.factory.UIFactory;
 import com.jarlure.ui.bean.Font;
 import com.jarlure.ui.component.Picture;
 import com.jarlure.ui.component.UIComponent;
@@ -11,7 +11,7 @@ import com.jarlure.ui.effect.NinePatchEffect;
 import com.jarlure.ui.effect.TextEditEffect;
 import com.jarlure.ui.effect.TextLineEditEffect;
 import com.jarlure.ui.property.*;
-import com.jarlure.ui.property.common.EnumPropertyListener;
+import com.jarlure.ui.property.common.CustomPropertyListener;
 import com.jarlure.ui.util.ImageHandler;
 import com.jme3.math.ColorRGBA;
 import com.jme3.texture.Image;
@@ -22,7 +22,9 @@ import com.jme3.util.NativeObjectManager;
 import java.nio.ByteBuffer;
 
 
-public class NameTextEditFactory implements UIFactory {
+public class NameTextEditFactory extends AbstractUIFactory {
+
+    public static final int MAX_TEXT_NUMBER = 40;
 
     @Override
     public UIComponent create(String type, String name, LayerImageData... data) {
@@ -40,11 +42,11 @@ public class NameTextEditFactory implements UIFactory {
                 font.setColor(ColorRGBA.Black);
             }
             final Image textDrawImg ;{
-                int width = fontProperty.getSize()*40;//最多显示40个字
+                int width = fontProperty.getSize()*MAX_TEXT_NUMBER;//最多显示40个字
                 int height = (int) picture.get(AABB.class).getHeight();
                 textDrawImg=ImageHandler.createEmptyImage(width,height);
             }
-            EnumPropertyListener listener = (property, oldValue, newValue) -> {
+            CustomPropertyListener listener = (property, oldValue, newValue) -> {
                 if (newValue==null)return;
                 if (newValue.equals(oldValue))return;
                 if (property.equals(TextProperty.Property.SRC))return;
@@ -110,7 +112,7 @@ public class NameTextEditFactory implements UIFactory {
                     if (startX==endX)return;
                     ImageRaster srcRaster = ImageRaster.create(textDrawImg);
                     ImageRaster desRaster = ImageRaster.create(des);
-                    ColorRGBA color=ImageHandler.TEMP_COLOR1;
+                    ColorRGBA color=new ColorRGBA();
                     float tolerance=0.4f;//经验参数，透明度小于该值表示背景色；否则表示字体色
                     textMarkForSelection=new int[0];
                     for (int y = startY; y < endY; y++) {

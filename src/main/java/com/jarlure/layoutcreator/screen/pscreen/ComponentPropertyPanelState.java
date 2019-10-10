@@ -1,6 +1,7 @@
 package com.jarlure.layoutcreator.screen.pscreen;
 
 import com.jarlure.layoutcreator.bean.*;
+import com.jarlure.layoutcreator.factory.NameTextEditFactory;
 import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.layoutcreator.util.xml.ComponentConfigureXMLFileEditor;
 import com.jarlure.project.bean.commoninterface.Record;
@@ -8,7 +9,7 @@ import com.jarlure.project.component.VaryUIComponent;
 import com.jarlure.project.factory.UIFactory;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.project.state.RecordState;
 import com.jarlure.ui.bean.Font;
@@ -18,11 +19,13 @@ import com.jarlure.ui.effect.SwitchEffect;
 import com.jarlure.ui.effect.TextEditEffect;
 import com.jarlure.ui.input.KeyInputListener;
 import com.jarlure.ui.input.MouseEvent;
+import com.jarlure.ui.input.MouseInputAdapter;
 import com.jarlure.ui.input.MouseInputListener;
 import com.jarlure.ui.input.extend.TextEditKeyInputListener;
 import com.jarlure.ui.input.extend.TextEditMouseInputListener;
 import com.jarlure.ui.property.*;
 import com.jarlure.ui.property.common.Property;
+import com.jarlure.ui.property.common.PropertyFilter;
 import com.jarlure.ui.property.common.PropertyListener;
 import com.jarlure.ui.system.InputManager;
 import com.jme3.math.ColorRGBA;
@@ -125,9 +128,9 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
         });
     }
 
-    private class OpenTypeListOperation implements Operation {
+    private class OpenTypeListOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
@@ -160,7 +163,7 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
 
         };
@@ -177,9 +180,9 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
 
     }
 
-    private class SelectTypeFromTypeListOperation implements Operation{
+    private class SelectTypeFromTypeListOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             @Override
             public void onMove(MouseEvent mouse) {
@@ -254,13 +257,18 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
 
     }
 
-    private class EditNameOperation implements Operation{
+    private class EditNameOperation extends AbstractOperation {
 
         private EntityId id;
         private FocusProperty focusProperty=new FocusProperty();
         private Property<Integer> selectFromIndex=new Property<>();
         private Property<Integer> cursorPositionIndex=new Property<>();
-        private MouseInputListener nameTextSelectedListener = new MouseInputListener() {
+        private PropertyFilter<Integer> indexFilter= value -> {
+            if (value<0)return 0;
+            if (value> NameTextEditFactory.MAX_TEXT_NUMBER)return NameTextEditFactory.MAX_TEXT_NUMBER;
+            return value;
+        };
+        private MouseInputListener nameTextSelectedListener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(nameText,mouse)){
@@ -272,7 +280,7 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
         private PropertyListener<Boolean> focusListener = new PropertyListener<Boolean>() {
@@ -351,6 +359,8 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
         @Override
         public void initialize() {
             focusProperty.addPropertyListener(focusListener);
+            selectFromIndex.addInputPropertyFilter(indexFilter);
+            cursorPositionIndex.addInputPropertyFilter(indexFilter);
         }
 
         @Override
@@ -398,13 +408,18 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
 
     }
 
-    private class EditLinkOperation implements Operation{
+    private class EditLinkOperation extends AbstractOperation {
 
         private EntityId id;
         private FocusProperty focusProperty=new FocusProperty();
         private Property<Integer> selectFromIndex=new Property<>();
         private Property<Integer> cursorPositionIndex=new Property<>();
-        private MouseInputListener linkTextSelectedListener = new MouseInputListener() {
+        private PropertyFilter<Integer> indexFilter= value -> {
+            if (value<0)return 0;
+            if (value> NameTextEditFactory.MAX_TEXT_NUMBER)return NameTextEditFactory.MAX_TEXT_NUMBER;
+            return value;
+        };
+        private MouseInputListener linkTextSelectedListener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(linkText,mouse)){
@@ -416,7 +431,7 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
         private PropertyListener<Boolean> focusListener = new PropertyListener<Boolean>() {
@@ -495,6 +510,8 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
         @Override
         public void initialize() {
             focusProperty.addPropertyListener(focusListener);
+            selectFromIndex.addInputPropertyFilter(indexFilter);
+            cursorPositionIndex.addInputPropertyFilter(indexFilter);
         }
 
         @Override

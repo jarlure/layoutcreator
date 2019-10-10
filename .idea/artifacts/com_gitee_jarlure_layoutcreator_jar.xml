@@ -1,0 +1,39 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="com.gitee.jarlure.layoutcreator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/com_gitee_jarlure_layoutcreator_jar</output-path>
+    <root id="archive" name="com.gitee.jarlure.layoutcreator.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="directory" name="src">
+        <element id="directory" name="main">
+          <element id="directory" name="resources">
+            <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
+          </element>
+        </element>
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/envirement" />
+      <element id="module-output" name="com.gitee.jarlure.layoutcreator.main" />
+      <element id="library" level="project" name="Gradle: org.jmonkeyengine:jme3-lwjgl:3.1.0-stable" />
+      <element id="library" level="project" name="Gradle: com.github.jarlure:project:1.0.0" />
+      <element id="library" level="project" name="Gradle: com.github.jarlure:ui:1.0.0" />
+      <element id="library" level="project" name="Gradle: org.jmonkeyengine:jme3-desktop:3.1.0-stable" />
+      <element id="library" level="project" name="Gradle: org.jmonkeyengine:jme3-core:3.1.0-stable" />
+      <element id="library" level="project" name="Gradle: dom4j:dom4j:1.6.1" />
+      <element id="library" level="project" name="Gradle: com.wutka:dtdparser:1.21" />
+      <element id="library" level="project" name="Gradle: com.simsilica:zay-es:1.2.1" />
+      <element id="library" level="project" name="Gradle: org.lwjgl.lwjgl:lwjgl:2.9.3" />
+      <element id="library" level="project" name="Gradle: xml-apis:xml-apis:1.0.b2" />
+      <element id="library" level="project" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-windows:2.9.3" />
+      <element id="library" level="project" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-linux:2.9.3" />
+      <element id="library" level="project" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-osx:2.9.3" />
+      <element id="library" level="project" name="Gradle: com.google.guava:guava:19.0" />
+      <element id="library" level="project" name="Gradle: net.java.jinput:jinput:2.0.5" />
+      <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.13" />
+      <element id="library" level="project" name="Gradle: net.java.jutils:jutils:1.0.0" />
+      <element id="library" level="project" name="Gradle: net.java.jinput:jinput-platform:natives-linux:2.0.5" />
+      <element id="library" level="project" name="Gradle: net.java.jinput:jinput-platform:natives-windows:2.0.5" />
+      <element id="library" level="project" name="Gradle: net.java.jinput:jinput-platform:natives-osx:2.0.5" />
+    </root>
+  </artifact>
+</component>

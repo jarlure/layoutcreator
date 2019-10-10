@@ -6,12 +6,12 @@ import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.project.component.VaryUIComponent;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.ui.component.UIComponent;
 import com.jarlure.ui.converter.SelectConverter;
-import com.jarlure.ui.effect.SwitchEffect;
 import com.jarlure.ui.input.MouseEvent;
+import com.jarlure.ui.input.MouseInputAdapter;
 import com.jarlure.ui.input.MouseInputListener;
 import com.jarlure.ui.input.extend.ButtonMouseInputListener;
 import com.jarlure.ui.system.InputManager;
@@ -49,13 +49,13 @@ public class WindowBarState extends AbstractScreenState {
         closeButton.setValue(layout.getComponent(PSLayout.WINDOW_CLOSE_BUTTON));
     }
 
-    private class DragWindowOperation implements Operation {
+    private class DragWindowOperation extends AbstractOperation {
 
         private boolean pressed;
         private int locationX,locationY;
         private int cursorX,cursorY;
 
-        private MouseInputListener listener=new MouseInputListener() {
+        private MouseInputListener listener=new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(windowBar,mouse)){
@@ -93,7 +93,7 @@ public class WindowBarState extends AbstractScreenState {
 
     }
 
-    private class MinimizeWindowOperation implements Operation{
+    private class MinimizeWindowOperation extends AbstractOperation {
 
         private MouseInputListener listener=new ButtonMouseInputListener(minimizeButton) {
 
@@ -123,7 +123,7 @@ public class WindowBarState extends AbstractScreenState {
 
     }
 
-    private class CloseWindowOperation implements Operation {
+    private class CloseWindowOperation extends AbstractOperation {
 
         private MouseInputListener listener=new ButtonMouseInputListener(closeButton) {
 

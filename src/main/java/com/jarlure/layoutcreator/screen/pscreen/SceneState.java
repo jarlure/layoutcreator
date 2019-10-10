@@ -8,13 +8,14 @@ import com.jarlure.project.factory.DefaultUIFactory;
 import com.jarlure.project.factory.UIFactory;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.ui.component.UIComponent;
 import com.jarlure.ui.component.UINode;
 import com.jarlure.ui.converter.ScrollConverter;
 import com.jarlure.ui.converter.SelectConverter;
 import com.jarlure.ui.input.MouseEvent;
+import com.jarlure.ui.input.MouseInputAdapter;
 import com.jarlure.ui.input.MouseInputListener;
 import com.jarlure.ui.input.extend.HorizontalScrollInputListener;
 import com.jarlure.ui.input.extend.VerticalScrollInputListener;
@@ -22,7 +23,7 @@ import com.jarlure.ui.property.AABB;
 import com.jarlure.ui.property.ChildrenProperty;
 import com.jarlure.ui.property.ParentProperty;
 import com.jarlure.ui.property.SpatialProperty;
-import com.jarlure.ui.property.common.EnumPropertyListener;
+import com.jarlure.ui.property.common.CustomPropertyListener;
 import com.jarlure.ui.system.InputManager;
 import com.jarlure.ui.system.UIRenderState;
 import com.jme3.math.ColorRGBA;
@@ -187,9 +188,9 @@ public class SceneState extends AbstractScreenState {
         layerViewNode.move(sceneBox.getXCenter() - viewBox.getXCenter(), sceneBox.getYCenter() - viewBox.getYCenter());
     }
 
-    private class TransformSceneOperation implements Operation {
+    private class TransformSceneOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             private boolean pressed;
 
@@ -239,7 +240,7 @@ public class SceneState extends AbstractScreenState {
 
     }
 
-    private class ScrollSceneOperation implements Operation {
+    private class ScrollSceneOperation extends AbstractOperation {
 
         private MouseInputListener verticalScrollListener = new VerticalScrollInputListener(verticalScrollBar, scene, layerViewNode) {
 
@@ -279,7 +280,7 @@ public class SceneState extends AbstractScreenState {
             }
 
         };
-        private EnumPropertyListener layerViewListener = new EnumPropertyListener() {
+        private CustomPropertyListener layerViewListener = new CustomPropertyListener() {
 
             @Override
             public void propertyChanged(Enum property, Object oldValue, Object newValue) {
@@ -346,7 +347,7 @@ public class SceneState extends AbstractScreenState {
 
     }
 
-    private class TranslucentSceneOperation implements Operation {
+    private class TranslucentSceneOperation extends AbstractOperation {
 
         private EntitySet componentSelectedSet;
         private Set<Geometry> translucentViewSet = new HashSet<>();

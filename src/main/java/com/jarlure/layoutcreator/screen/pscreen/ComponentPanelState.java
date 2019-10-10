@@ -10,7 +10,7 @@ import com.jarlure.project.component.VaryUIComponent;
 import com.jarlure.project.factory.UIFactory;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.project.state.RecordState;
 import com.jarlure.ui.bean.Direction;
@@ -21,19 +21,13 @@ import com.jarlure.ui.converter.ScrollConverter;
 import com.jarlure.ui.converter.SelectConverter;
 import com.jarlure.ui.effect.SwitchEffect;
 import com.jarlure.ui.effect.TextEditEffect;
-import com.jarlure.ui.input.KeyEvent;
-import com.jarlure.ui.input.KeyInputListener;
-import com.jarlure.ui.input.MouseEvent;
-import com.jarlure.ui.input.MouseInputListener;
+import com.jarlure.ui.input.*;
 import com.jarlure.ui.input.extend.ButtonMouseInputListener;
 import com.jarlure.ui.input.extend.TextEditKeyInputListener;
 import com.jarlure.ui.input.extend.TextEditMouseInputListener;
 import com.jarlure.ui.input.extend.VerticalScrollInputListener;
 import com.jarlure.ui.property.*;
-import com.jarlure.ui.property.common.EnumPropertyListener;
-import com.jarlure.ui.property.common.ListPropertyListener;
-import com.jarlure.ui.property.common.Property;
-import com.jarlure.ui.property.common.PropertyListener;
+import com.jarlure.ui.property.common.*;
 import com.jarlure.ui.system.InputManager;
 import com.jarlure.ui.system.UIRenderState;
 import com.jme3.input.KeyInput;
@@ -261,7 +255,7 @@ public class ComponentPanelState extends AbstractScreenState {
         return ed.findEntities(Filters.fieldEquals(Parent.class, "parentId", parentId), Parent.class);
     }
 
-    private class RepeatNameCheckOperation implements Operation {
+    private class RepeatNameCheckOperation extends AbstractOperation {
 
         private EntitySet componentNameSet;
 
@@ -318,7 +312,7 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class UpdateImgNameOperation implements Operation {
+    private class UpdateImgNameOperation extends AbstractOperation {
 
         private EntitySet layerSet;
         private EntitySet imgSet;
@@ -357,7 +351,7 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class UpdateItemLevelOperation implements Operation {
+    private class UpdateItemLevelOperation extends AbstractOperation {
 
         private EntitySet componentItemSet;
         private EntitySet imgItemSet;
@@ -436,7 +430,7 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class UpdateItemNameOperation implements Operation {
+    private class UpdateItemNameOperation extends AbstractOperation {
 
         private EntitySet componentItemSet;
         private EntitySet imgItemSet;
@@ -486,7 +480,7 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class UpdatePanelOperation implements Operation {
+    private class UpdatePanelOperation extends AbstractOperation {
 
         private EntitySet componentItemSet;
         private EntitySet imgItemSet;
@@ -644,11 +638,11 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class ScrollPanelOperation implements Operation {
+    private class ScrollPanelOperation extends AbstractOperation {
 
         private boolean updateScrollSize = false;
         private boolean updateScrollPosition = false;
-        private EnumPropertyListener firstItemListener = (property, oldValue, newValue) -> {
+        private CustomPropertyListener firstItemListener = (property, oldValue, newValue) -> {
             if (scrollBar.get(ScrollConverter.class).getPercentHeight() >= 1) {
                 scrollBar.setVisible(false);
                 return;
@@ -657,7 +651,7 @@ public class ComponentPanelState extends AbstractScreenState {
                 updateScrollPosition = true;
             }
         };
-        private ListPropertyListener<UIComponent> itemAddedListener = new ListPropertyListener<UIComponent>() {
+        private ListPropertyListener<UIComponent> itemAddedListener = new ListPropertyAdapter<UIComponent>() {
             @Override
             public void propertyAdded(int index, UIComponent value) {
                 if (index == 0) {
@@ -765,11 +759,11 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class SelectItemOperation implements Operation {
+    private class SelectItemOperation extends AbstractOperation {
 
         private EntitySet componentSelectedSet;
         private EntitySet imgSelectedSet;
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(PSLayout.COMPONENT_FOLD_BUTTON, mouse)) return;
@@ -896,9 +890,9 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class FoldItemOperation implements Operation {
+    private class FoldItemOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(PSLayout.COMPONENT_FOLD_BUTTON, mouse)) {
@@ -917,7 +911,7 @@ public class ComponentPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
 
@@ -985,7 +979,7 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class AddComponentOperation implements Operation {
+    private class AddComponentOperation extends AbstractOperation {
 
         private String defaultType;
         private EntitySet layerSet;
@@ -1094,7 +1088,7 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class AddImgOperation implements Operation {
+    private class AddImgOperation extends AbstractOperation {
 
         private EntitySet componentSelectedSet;
         private EntitySet imgSelectedSet;
@@ -1219,7 +1213,7 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class DeleteItemOperation implements Operation {
+    private class DeleteItemOperation extends AbstractOperation {
 
         private EntitySet componentSelectedSet;
         private EntitySet imgSelectedSet;
@@ -1244,7 +1238,7 @@ public class ComponentPanelState extends AbstractScreenState {
             }
 
         };
-        private KeyInputListener keyListener = new KeyInputListener() {
+        private KeyInputListener keyListener = new KeyInputAdapter() {
             @Override
             public void onKeyPressed(KeyEvent key) {
                 if (key.getCode() == KeyInput.KEY_DELETE) {
@@ -1259,7 +1253,7 @@ public class ComponentPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(KeyInputListener instance) {
+            public void foldAnonymousInnerClassCode(KeyInputAdapter instance) {
             }
         };
 
@@ -1411,9 +1405,9 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class MoveComponentItemOperation implements Operation{
+    private class MoveComponentItemOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             private final ColorRGBA translucentColor = new ColorRGBA(1,1,1,0.7f);
             private EntityId draggedId;
@@ -1628,9 +1622,9 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class MoveImgItemOperation implements Operation{
+    private class MoveImgItemOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             private final ColorRGBA translucentColor = new ColorRGBA(1,1,1,0.7f);
             private EntityId draggedId;
@@ -1843,13 +1837,13 @@ public class ComponentPanelState extends AbstractScreenState {
 
     }
 
-    private class RenameComponentOperation implements Operation {
+    private class RenameComponentOperation extends AbstractOperation {
 
         private VaryUIComponent selectedItemNameText = new VaryUIComponent();
         private FocusProperty focusProperty = new FocusProperty();
         private Property<Integer> selectFromIndex = new Property<>();
         private Property<Integer> cursorPositionIndex = new Property<>();
-        private MouseInputListener nameTextSelectedListener = new MouseInputListener() {
+        private MouseInputListener nameTextSelectedListener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonDoubleClick(MouseEvent mouse) {
                 if (selectConverter.isSelect(PSLayout.COMPONENT_NAME_TEXT, mouse)) {
@@ -1863,7 +1857,7 @@ public class ComponentPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
         private PropertyListener<UIComponent> selectedItemNameTextChangedListener = (oldValue, newValue) -> {

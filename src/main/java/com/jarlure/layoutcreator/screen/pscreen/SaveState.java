@@ -12,22 +12,22 @@ import com.jarlure.project.bean.LayoutData;
 import com.jarlure.project.component.VaryUIComponent;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.project.util.SavableHelper;
 import com.jarlure.ui.component.UIComponent;
 import com.jarlure.ui.converter.SelectConverter;
 import com.jarlure.ui.effect.SwitchEffect;
 import com.jarlure.ui.input.MouseEvent;
+import com.jarlure.ui.input.MouseInputAdapter;
 import com.jarlure.ui.input.MouseInputListener;
 import com.jarlure.ui.system.InputManager;
+import com.jarlure.ui.util.ImageHandler;
+import com.jme3.texture.Image;
 import com.simsilica.es.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SaveState extends AbstractScreenState {
 
@@ -85,61 +85,8 @@ public class SaveState extends AbstractScreenState {
     }
 
     public void saveToXml(File xmlFile){
-        EntityId[] componentIdList;{
-            Set<EntityId> componentSet = ed.findEntities(null,Component.class,Index.class);
-            componentIdList=new EntityId[componentSet.size()];
-            componentSet.forEach(entityId -> {
-                int index = ed.getComponent(entityId,Index.class).getIndex();
-                componentIdList[index]=entityId;
-            });
-        }
-        Entity data = new Entity();
-        for (EntityId id:componentIdList){
-            String componentType = ed.getComponent(id,Type.class).getType();
-            String componentName = ed.getComponent(id,Name.class).getName();
-            String componentLink;{
-                ComponentLink link = ed.getComponent(id,ComponentLink.class);
-                if (link==null) componentLink=null;
-                else componentLink=link.getLink();
-            }
-
-            Entity componentImg = new Entity();
-            Entity componentChild = new Entity();
-            Set<EntityId> idSet = ed.findEntities(Filters.fieldEquals(Parent.class,"parentId",id),Parent.class);
-            if (!idSet.isEmpty()){
-                boolean isImg = null != ed.getComponent(idSet.stream().findFirst().get(),Img.class);
-                if (isImg){
-                    idSet.forEach(entityId -> {
-                        int index = ed.getComponent(entityId,Index.class).getIndex();
-                        EntityId posId = ed.getComponent(entityId,ImgPos.class).getId();
-                        EntityId urlId = ed.getComponent(entityId,ImgUrl.class).getUrl();
-                        String imgName = ed.getComponent(posId,Name.class).getName();
-                        String imgURL ;{
-                            if (posId==urlId) imgURL=null;
-                            else if (urlId==null) imgURL="";
-                            else imgURL=ed.getComponent(urlId,Name.class).getName();
-                        }
-                        componentImg.setItem(index,new EnumMap<>(ComponentConfigureXMLFileEditor.Img.class),
-                                ComponentConfigureXMLFileEditor.Img.Name,imgName,
-                                ComponentConfigureXMLFileEditor.Img.URL,imgURL);
-                    });
-                }else{
-                    idSet.forEach(entityId -> {
-                        int index = ed.getComponent(entityId,Index.class).getIndex();
-                        String childName = ed.getComponent(entityId,Name.class).getName();
-                        componentChild.setItem(index,new EnumMap<>(ComponentConfigureXMLFileEditor.Child.class),
-                                ComponentConfigureXMLFileEditor.Child.Name,childName);
-                    });
-                }
-            }
-
-            data.addItem(new EnumMap<>(ComponentConfigureXMLFileEditor.Component.class),
-                    ComponentConfigureXMLFileEditor.Component.Type, componentType,
-                    ComponentConfigureXMLFileEditor.Component.Name, componentName,
-                    ComponentConfigureXMLFileEditor.Component.Link, componentLink,
-                    ComponentConfigureXMLFileEditor.Component.Img, componentImg,
-                    ComponentConfigureXMLFileEditor.Component.Child, componentChild);
-        }
+        EntityId[] componentIdList=Helper.getComponentIdList(ed);
+        Entity data = Helper.getComponentConfigureData(componentIdList,ed);
 
         if (data.isEmpty())return;
         if (!XmlFileCreateRecord.existRecord(xmlFile)) XmlFileCreateRecord.addRecord(xmlFile);
@@ -150,38 +97,26 @@ public class SaveState extends AbstractScreenState {
         PSDData psdData = ed.getComponent(new EntityId(PSDData.class.hashCode()),PSDData.class);
         int layoutHeight = psdData.get(0).hashCode();
         int layoutWidth = psdData.get(1).hashCode();
-        List<LayerImageData> dataList = new ArrayList<>();
-        ed.findEntities(null,Img.class).forEach(entityId -> {
-            EntityId posId = ed.getComponent(entityId,ImgPos.class).getId();
-            EntityId urlId = ed.getComponent(entityId,ImgUrl.class).getUrl();
-            if (posId!=null){
-                LayerImageData data = ed.getComponent(posId,LayerImgData.class).getLayerImageData();
-                if (!dataList.contains(data)) dataList.add(data);
-            }
-            if (urlId!=null){
-                LayerImageData data = ed.getComponent(urlId,LayerImgData.class).getLayerImageData();
-                if (!dataList.contains(data)) dataList.add(data);
-            }
-        });
-        if (dataList.isEmpty())return;
-        for (int i=dataList.size()-1;i>=0;i--){
-            LayerImageData data = dataList.get(i);
+        List<LayerImageData> imgList = Helper.getImgList(ed);
+        if (imgList.isEmpty())return;
+        for (int i=imgList.size()-1;i>=0;i--){
+            LayerImageData data = imgList.get(i);
             data=new LayerImageData(data);
             data.setName(null);//不需要PS中的图层名
-            dataList.set(i,data);
+            imgList.set(i,data);
         }
         LayoutData layoutData = new LayoutData();
         layoutData.setLayoutWidth(layoutWidth);
         layoutData.setLayoutHeight(layoutHeight);
-        layoutData.setImgList(dataList);
+        layoutData.setImgList(imgList);
 
         SavableHelper.saveAsJ3OData(j3oFile,layoutData);
     }
 
-    private class SaveOperation implements Operation {
+    private class SaveOperation extends AbstractOperation {
 
         private EntitySet saveAskSet;
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             private UIComponent pressed;
 
@@ -258,6 +193,181 @@ public class SaveState extends AbstractScreenState {
                     saveTipDialog.setVisible(true);
                 }
             }
+        }
+
+    }
+
+    private static class Helper{
+
+        public static EntityId[] getComponentIdList(EntityData ed){
+            Set<EntityId> componentSet = ed.findEntities(null,Component.class,Index.class);
+            EntityId[] componentIdList=new EntityId[componentSet.size()];
+            componentSet.forEach(entityId -> {
+                int index = ed.getComponent(entityId,Index.class).getIndex();
+                componentIdList[index]=entityId;
+            });
+            return componentIdList;
+        }
+
+        public static Entity getComponentConfigureData(EntityId[] componentIdList,EntityData ed){
+            Entity data = new Entity();
+            for (EntityId id : componentIdList) {
+                String componentType = ed.getComponent(id, Type.class).getType();
+                String componentName = ed.getComponent(id, Name.class).getName();
+                String componentLink;{
+                    ComponentLink link = ed.getComponent(id, ComponentLink.class);
+                    if (link == null) componentLink = null;
+                    else componentLink = link.getLink();
+                }
+
+                Entity componentImg = new Entity();
+                Entity componentChild = new Entity();
+                Set<EntityId> idSet = ed.findEntities(Filters.fieldEquals(Parent.class, "parentId", id), Parent.class);
+                if (!idSet.isEmpty()) {
+                    boolean isImg = null != ed.getComponent(idSet.stream().findFirst().get(), Img.class);
+                    if (isImg) {
+                        idSet.forEach(entityId -> {
+                            int index = ed.getComponent(entityId, Index.class).getIndex();
+                            EntityId posId = ed.getComponent(entityId, ImgPos.class).getId();
+                            EntityId urlId = ed.getComponent(entityId, ImgUrl.class).getUrl();
+                            String imgName = ed.getComponent(posId, Name.class).getName();
+                            String imgURL;{
+                                if (posId == urlId) imgURL = null;
+                                else if (urlId == null) imgURL = "";
+                                else imgURL = ed.getComponent(urlId, Name.class).getName();
+                            }
+                            componentImg.setItem(index, new EnumMap<>(ComponentConfigureXMLFileEditor.Img.class),
+                                    ComponentConfigureXMLFileEditor.Img.Name, imgName,
+                                    ComponentConfigureXMLFileEditor.Img.URL, imgURL);
+                        });
+                    } else {
+                        idSet.forEach(entityId -> {
+                            int index = ed.getComponent(entityId, Index.class).getIndex();
+                            String childName = ed.getComponent(entityId, Name.class).getName();
+                            componentChild.setItem(index, new EnumMap<>(ComponentConfigureXMLFileEditor.Child.class),
+                                    ComponentConfigureXMLFileEditor.Child.Name, childName);
+                        });
+                    }
+                }
+
+                data.addItem(new EnumMap<>(ComponentConfigureXMLFileEditor.Component.class),
+                        ComponentConfigureXMLFileEditor.Component.Type, componentType,
+                        ComponentConfigureXMLFileEditor.Component.Name, componentName,
+                        ComponentConfigureXMLFileEditor.Component.Link, componentLink,
+                        ComponentConfigureXMLFileEditor.Component.Img, componentImg,
+                        ComponentConfigureXMLFileEditor.Component.Child, componentChild);
+            }
+            return data;
+        }
+
+        public static List<LayerImageData> getImgList(EntityData ed){
+            List<LayerImageData> result = new ArrayList<>();
+            //获取组件的组件图片ID
+            List<EntityId> imgIdList = getImgIdList(ed);
+            //找到组件图片关联的图层ID
+            List<EntityId> layerIdList = getLayerIdByImgId(imgIdList,ed);
+            //获取图层ID对应的图层数据
+            for (EntityId layerId:layerIdList){
+                LayerImageData data = getLayerImageData(layerId,ed);
+                result.add(data);
+            }
+            return result;
+        }
+
+        private static List<EntityId> getImgIdList(EntityData ed){
+            List<EntityId> result = new ArrayList<>();
+            Set<EntityId> componentIdSet = ed.findEntities(null,Component.class);
+            List<EntityId> componentIdList = new ArrayList<>(componentIdSet.size());
+            int[] indexList = new int[componentIdSet.size()];
+            int i=0;
+            for (EntityId componentId:componentIdSet){
+                componentIdList.add(componentId);
+                indexList[i++]=ed.getComponent(componentId,Index.class).getIndex();
+            }
+            sortByIndex(componentIdList,indexList);
+            for (EntityId componentId:componentIdList){
+                Set<EntityId> imgIdSet = ed.findEntities(Filters.fieldEquals(Parent.class,"parentId",componentId),Parent.class,Img.class);
+                if (imgIdSet.size()>1){
+                    List<EntityId> imgIdList = new ArrayList<>(imgIdSet.size());
+                    indexList = new int[imgIdSet.size()];
+                    i=0;
+                    for (EntityId imgId:imgIdSet){
+                        indexList[i++] = ed.getComponent(imgId,Index.class).getIndex();
+                        imgIdList.add(imgId);
+                    }
+                    sortByIndex(imgIdList,indexList);
+                    result.addAll(imgIdList);
+                }else imgIdSet.stream().findFirst().ifPresent(result::add);
+            }
+            return result;
+        }
+
+        private static List<EntityId> getLayerIdByImgId(List<EntityId> imgIdList,EntityData ed){
+            List<EntityId> result = new ArrayList<>();
+            for (EntityId entityId:imgIdList){
+                EntityId posId = ed.getComponent(entityId,ImgPos.class).getId();
+                EntityId urlId = ed.getComponent(entityId,ImgUrl.class).getUrl();
+                if (posId!=null && !result.contains(posId)) result.add(posId);
+                if (urlId!=null && !result.contains(urlId)) result.add(urlId);
+            }
+            return result;
+        }
+
+        private static <T extends Object> void sortByIndex(List<T> list,int[] indexList){
+            for (int i=0;i<indexList.length;i++){
+                int index=indexList[i];
+                for (int j=i+1;j<indexList.length;j++){
+                    if (index>indexList[j]){
+                        index=indexList[j];
+                        indexList[j]=indexList[i];
+                        indexList[i]=index;
+                        T element = list.get(j);
+                        list.set(j,list.get(i));
+                        list.set(i,element);
+                    }
+                }
+            }
+        }
+
+        private static LayerImageData getLayerImageData(EntityId layerId,EntityData ed){
+            String type = ed.getComponent(layerId,Type.class).getType();
+            if (PSLayout.LAYER_GROUP_ITEM.equals(type)){
+                Set<EntityId> childIdSet = ed.findEntities(Filters.fieldEquals(Parent.class,"parentId",layerId));
+                List<LayerImageData> layerDataList = new ArrayList<>();
+                int[] indexList = new int[childIdSet.size()];
+                int i=0;
+                for (EntityId childId:childIdSet){
+                    int index = ed.getComponent(childId,Index.class).getIndex();
+                    indexList[i++]=index;
+                    LayerImageData data = getLayerImageData(childId,ed);
+                    layerDataList.add(data);
+                }
+                sortByIndex(layerDataList,indexList);
+                LayerImageData result = combineToOneBigImage(layerDataList);
+                String layerName = ed.getComponent(layerId,LayerImgData.class).getLayerImageData().getName();
+                result.setName(layerName);
+                return result;
+            }else{
+                return ed.getComponent(layerId,LayerImgData.class).getLayerImageData();
+            }
+        }
+
+        private static LayerImageData combineToOneBigImage(List<LayerImageData> data) {
+            LayerImageData bigImgData = new LayerImageData(data.get(0));
+            for (LayerImageData layerImageData : data) {
+                if (layerImageData.getTop() > bigImgData.getTop()) bigImgData.setTop(layerImageData.getTop());
+                if (layerImageData.getBottom() < bigImgData.getBottom())
+                    bigImgData.setBottom(layerImageData.getBottom());
+                if (layerImageData.getLeft() < bigImgData.getLeft()) bigImgData.setLeft(layerImageData.getLeft());
+                if (layerImageData.getRight() > bigImgData.getRight()) bigImgData.setRight(layerImageData.getRight());
+            }
+            Image bigImg = ImageHandler.createEmptyImage(bigImgData.getWidth(), bigImgData.getHeight());
+            for (LayerImageData datai : data) {
+                if (datai.getImg() == null) continue;
+                ImageHandler.drawCombine(bigImg, datai.getImg(), datai.getLeft() - bigImgData.getLeft(), datai.getBottom() - bigImgData.getBottom());
+            }
+            bigImgData.setImg(bigImg);
+            return bigImgData;
         }
 
     }

@@ -7,7 +7,7 @@ import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.project.component.VaryUIComponent;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.ui.component.UIComponent;
 import com.jarlure.ui.converter.SelectConverter;
@@ -16,7 +16,7 @@ import com.jarlure.ui.input.MouseInputListener;
 import com.jarlure.ui.input.extend.ButtonMouseInputListener;
 import com.jarlure.ui.input.extend.SpringButtonMouseInputListener;
 import com.jarlure.ui.property.SpatialProperty;
-import com.jarlure.ui.property.common.EnumPropertyListener;
+import com.jarlure.ui.property.common.CustomPropertyListener;
 import com.jarlure.ui.property.common.PropertyListener;
 import com.jarlure.ui.system.InputManager;
 import com.simsilica.es.EntityData;
@@ -53,7 +53,7 @@ public class ComponentDialogState extends AbstractScreenState {
         imgPropertyContent = layout.getComponent(PSLayout.IMG_PROPERTY_CONTENT);
     }
 
-    private class ShowRelationDialogOperation implements Operation {
+    private class ShowRelationDialogOperation extends AbstractOperation {
 
         private MouseInputListener listener = new SpringButtonMouseInputListener(dialogSwitchButton) {
 
@@ -84,11 +84,11 @@ public class ComponentDialogState extends AbstractScreenState {
 
     }
 
-    private class ShowPropertyDialogOperation implements Operation {
+    private class ShowPropertyDialogOperation extends AbstractOperation {
 
         private EntitySet componentSelectedSet;
         private EntitySet imgSelectedSet;
-        private EnumPropertyListener visibleChangedListener = (property, oldValue, newValue) -> {
+        private CustomPropertyListener visibleChangedListener = (property, oldValue, newValue) -> {
             if (property== SpatialProperty.Property.CULL_HINT){
                 if (componentRelationDialog.isVisible()){
                     if (!componentSelectedSet.isEmpty() || !imgSelectedSet.isEmpty()){

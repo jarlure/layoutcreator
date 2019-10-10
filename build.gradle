@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
-group 'com.gitee.jarlure'
+group 'com.github.jarlure'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8 // java 8
@@ -18,14 +18,14 @@ repositories {
 
 def jme3 = [v:'3.1.0-stable', g:'org.jmonkeyengine']
 dependencies {
-    compile "${jme3.g}:jme3-core:${jme3.v}"
-    compile "${jme3.g}:jme3-lwjgl:${jme3.v}"
-    runtime "${jme3.g}:jme3-desktop:${jme3.v}"
-    compile 'com.github.jarlure:ui:1.0.0'
-    compile 'com.github.jarlure:project:1.0.0'
-    compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
-    compile group: 'com.wutka', name: 'dtdparser', version: '1.21'
-    compile "com.simsilica:zay-es:1.2.1"
+    implementation "${jme3.g}:jme3-core:${jme3.v}"
+    implementation "${jme3.g}:jme3-lwjgl:${jme3.v}"
+    implementation "${jme3.g}:jme3-desktop:${jme3.v}"
+    implementation 'com.github.jarlure:ui:1.0.1'
+    implementation 'com.github.jarlure:project:1.0.1'
+    implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    implementation group: 'com.wutka', name: 'dtdparser', version: '1.21'
+    implementation "com.simsilica:zay-es:1.2.1"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

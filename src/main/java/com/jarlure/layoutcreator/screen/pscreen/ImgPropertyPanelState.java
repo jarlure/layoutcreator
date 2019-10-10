@@ -5,13 +5,14 @@ import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.project.bean.commoninterface.Record;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
-import com.jarlure.project.screen.screenstate.operation.Operation;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.project.state.RecordState;
 import com.jarlure.ui.component.UIComponent;
 import com.jarlure.ui.converter.SelectConverter;
 import com.jarlure.ui.effect.SwitchEffect;
 import com.jarlure.ui.input.MouseEvent;
+import com.jarlure.ui.input.MouseInputAdapter;
 import com.jarlure.ui.input.MouseInputListener;
 import com.jarlure.ui.property.TextProperty;
 import com.jarlure.ui.system.InputManager;
@@ -98,9 +99,9 @@ public class ImgPropertyPanelState extends AbstractScreenState {
         });
     }
 
-    private class QuoteSelectedLayerToNameOperation implements Operation {
+    private class QuoteSelectedLayerToNameOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             private boolean selected;
 
@@ -180,9 +181,9 @@ public class ImgPropertyPanelState extends AbstractScreenState {
 
     }
 
-    private class EnableUrlOperation implements Operation {
+    private class EnableUrlOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
             @Override
             public void onLeftButtonClick(MouseEvent mouse) {
                 if (selectConverter.isSelect(urlEnableCheckBox, mouse)) {
@@ -213,7 +214,7 @@ public class ImgPropertyPanelState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(MouseInputListener instance) {
+            public void foldAnonymousInnerClassCode(MouseInputAdapter instance) {
             }
         };
 
@@ -253,9 +254,9 @@ public class ImgPropertyPanelState extends AbstractScreenState {
 
     }
 
-    private class QuoteSelectedLayerToUrlOperation implements Operation {
+    private class QuoteSelectedLayerToUrlOperation extends AbstractOperation {
 
-        private MouseInputListener listener = new MouseInputListener() {
+        private MouseInputListener listener = new MouseInputAdapter() {
 
             private boolean selected;
 

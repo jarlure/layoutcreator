@@ -5,6 +5,7 @@ import com.jarlure.layoutcreator.bean.Selected;
 import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.project.layout.Layout;
 import com.jarlure.project.screen.screenstate.AbstractScreenState;
+import com.jarlure.project.screen.screenstate.operation.AbstractOperation;
 import com.jarlure.project.screen.screenstate.operation.Operation;
 import com.jarlure.project.state.EntityDataState;
 import com.jarlure.ui.bean.Font;
@@ -13,10 +14,7 @@ import com.jarlure.ui.converter.SelectConverter;
 import com.jarlure.ui.effect.SwitchEffect;
 import com.jarlure.ui.effect.TextEditEffect;
 import com.jarlure.ui.effect.TextLineEditEffect;
-import com.jarlure.ui.input.KeyEvent;
-import com.jarlure.ui.input.KeyInputListener;
-import com.jarlure.ui.input.MouseEvent;
-import com.jarlure.ui.input.MouseInputListener;
+import com.jarlure.ui.input.*;
 import com.jarlure.ui.property.*;
 import com.jarlure.ui.system.InputManager;
 import com.jarlure.ui.system.UIRenderState;
@@ -55,10 +53,10 @@ public class TestState extends AbstractScreenState {
         this.layout= (PSLayout) layout;
     }
 
-    private class PrintOperation implements Operation{
+    private class PrintOperation extends AbstractOperation {
 
 
-        private MouseInputListener mouseListener = new MouseInputListener() {
+        private MouseInputListener mouseListener = new MouseInputAdapter() {
 
             private boolean pressed;
 
@@ -72,7 +70,7 @@ public class TestState extends AbstractScreenState {
                 pressed=false;
             }
         };
-        private KeyInputListener keyListener = new KeyInputListener() {
+        private KeyInputListener keyListener = new KeyInputAdapter() {
             @Override
             public void onKeyPressed(KeyEvent key) {
                 switch (key.getCode()){
@@ -89,7 +87,7 @@ public class TestState extends AbstractScreenState {
             }
 
             @Override
-            public void foldAnonymousInnerClassCode(KeyInputListener instance) {
+            public void foldAnonymousInnerClassCode(KeyInputAdapter instance) {
             }
         };
 
