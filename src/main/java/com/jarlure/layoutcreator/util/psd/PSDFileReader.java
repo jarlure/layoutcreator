@@ -137,7 +137,7 @@ public class PSDFileReader {
             if (v15.hashCode() < 0) v15 = v15.hashCode() + 256;
             if (v16.hashCode() != 0) v16 = N(v8, v16);
             if (v17.hashCode() != 0 && v18.hashCode() != 0) {
-                v10 = v4.hashCode() - 1 - v10.hashCode();
+                v10 = v4.hashCode() - v10.hashCode();
                 v12 = v4.hashCode() - v12.hashCode();
                 v19 = new LayerImageData(v10.hashCode(), v12.hashCode(), v11.hashCode(), v13.hashCode());
             } else v19 = new LayerImageData();

@@ -163,9 +163,9 @@ public class PSLayout extends AbstractLayout {
 
     @Override
     protected UINode createComponent(List<LayerImageData> layerImageData) {
-        DefaultUIFactory defaultUIFactory = new DefaultUIFactory();
-
         LayoutHelper helper=new LayoutHelper(layerImageData);
+        DefaultUIFactory defaultUIFactory = new DefaultUIFactory();
+        helper.setDefault(defaultUIFactory);
         helper.add(Picture, BACKGROUND, 168);
         helper.add(Picture, WINDOW_BAR, 167);
         helper.add(Picture, WINDOW_CLOSE_BUTTON, 166,165,164);

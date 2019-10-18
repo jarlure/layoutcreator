@@ -99,12 +99,6 @@ public class SaveState extends AbstractScreenState {
         int layoutWidth = psdData.get(1).hashCode();
         List<LayerImageData> imgList = Helper.getImgList(ed);
         if (imgList.isEmpty())return;
-        for (int i=imgList.size()-1;i>=0;i--){
-            LayerImageData data = imgList.get(i);
-            data=new LayerImageData(data);
-            data.setName(null);//不需要PS中的图层名
-            imgList.set(i,data);
-        }
         LayoutData layoutData = new LayoutData();
         layoutData.setLayoutWidth(layoutWidth);
         layoutData.setLayoutHeight(layoutHeight);
@@ -261,17 +255,17 @@ public class SaveState extends AbstractScreenState {
         }
 
         public static List<LayerImageData> getImgList(EntityData ed){
-            List<LayerImageData> result = new ArrayList<>();
             //获取组件的组件图片ID
             List<EntityId> imgIdList = getImgIdList(ed);
             //找到组件图片关联的图层ID
             List<EntityId> layerIdList = getLayerIdByImgId(imgIdList,ed);
             //获取图层ID对应的图层数据
+            Map<EntityId,LayerImageData> layerIdDataMap=new HashMap<>(layerIdList.size()+1,1);
             for (EntityId layerId:layerIdList){
                 LayerImageData data = getLayerImageData(layerId,ed);
-                result.add(data);
+                layerIdDataMap.put(layerId,data);
             }
-            return result;
+            return createImgList(imgIdList,layerIdDataMap,ed);
         }
 
         private static List<EntityId> getImgIdList(EntityData ed){
@@ -368,6 +362,35 @@ public class SaveState extends AbstractScreenState {
             }
             bigImgData.setImg(bigImg);
             return bigImgData;
+        }
+
+        private static List<LayerImageData> createImgList(List<EntityId> imgIdList,Map<EntityId,LayerImageData> layerIdDataMap,EntityData ed){
+            List<LayerImageData> result = new ArrayList<>();
+            for (EntityId entityId:imgIdList){
+                EntityId posId = ed.getComponent(entityId,ImgPos.class).getId();
+                EntityId urlId = ed.getComponent(entityId,ImgUrl.class).getUrl();
+                if (posId!=null){
+                    if (posId==urlId){
+                        LayerImageData srcData = layerIdDataMap.get(posId);
+                        LayerImageData desData = new LayerImageData(srcData);
+                        desData.setName(null);//不需要PS中的图层名
+                        result.add(desData);
+                    }else{
+                        LayerImageData srcData = layerIdDataMap.get(posId);
+                        LayerImageData desData = new LayerImageData(srcData);
+                        desData.setName(null);//不需要PS中的图层名
+                        if (urlId==null) desData.setImg(null);
+                        else{
+                            LayerImageData urlData = layerIdDataMap.get(urlId);
+                            desData.setImg(urlData.getImg());
+                        }
+                        result.add(desData);
+                    }
+                }else{
+                    result.add(new LayerImageData());
+                }
+            }
+            return result;
         }
 
     }

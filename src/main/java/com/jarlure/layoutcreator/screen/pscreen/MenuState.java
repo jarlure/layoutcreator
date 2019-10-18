@@ -426,10 +426,10 @@ public class MenuState extends AbstractScreenState {
 
     private class UndoRedoEditOperation extends AbstractOperation {
 
-        private RecordState recordState;
         private CustomPropertyListener recordOperationListener = new CustomPropertyListener() {
             @Override
-            public void propertyChanged(Enum anEnum, Object o, Object o1) {
+            public void propertyChanged(Enum property, Object oldValue, Object newValue) {
+                RecordState recordState = getScreen().getState(RecordState.class);
                 editRedoSelected.setVisible(!recordState.isRedoDisabled());
                 editUndoSelected.setVisible(!recordState.isUndoDisabled());
             }
@@ -438,10 +438,10 @@ public class MenuState extends AbstractScreenState {
             @Override
             public void onLeftButtonPress(MouseEvent mouse) {
                 if (selectConverter.isSelect(editRedoSelected,mouse)){
-                    recordState.redo();
+                    getScreen().getState(RecordState.class).redo();
                 }
                 if (selectConverter.isSelect(editUndoSelected,mouse)){
-                    recordState.undo();
+                    getScreen().getState(RecordState.class).undo();
                 }
             }
 
@@ -453,10 +453,10 @@ public class MenuState extends AbstractScreenState {
             @Override
             public void onKeyPressed(KeyEvent key) {
                 if (key.isAltAndShiftPressed() && key.getCode()== KeyInput.KEY_Z){
-                    recordState.redo();
+                    getScreen().getState(RecordState.class).redo();
                 }
                 if (key.isCtrlAndAltPressed() && key.getCode()==KeyInput.KEY_Z){
-                    recordState.undo();
+                    getScreen().getState(RecordState.class).undo();
                 }
             }
 
@@ -467,7 +467,7 @@ public class MenuState extends AbstractScreenState {
 
         @Override
         public void initialize() {
-            recordState=getScreen().getState(RecordState.class);
+            RecordState recordState=getScreen().getState(RecordState.class);
             recordState.addOperationListener(recordOperationListener);
         }
 

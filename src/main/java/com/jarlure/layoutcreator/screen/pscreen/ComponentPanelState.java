@@ -3,9 +3,11 @@ package com.jarlure.layoutcreator.screen.pscreen;
 import com.jarlure.layoutcreator.bean.*;
 import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.layoutcreator.util.xml.ComponentConfigureXMLFileEditor;
+import com.jarlure.project.bean.commoninterface.Callback;
 import com.jarlure.project.bean.commoninterface.Filter;
 import com.jarlure.project.bean.commoninterface.Record;
 import com.jarlure.project.bean.entitycomponent.Decay;
+import com.jarlure.project.bean.entitycomponent.Delay;
 import com.jarlure.project.component.VaryUIComponent;
 import com.jarlure.project.factory.UIFactory;
 import com.jarlure.project.layout.Layout;
@@ -640,15 +642,13 @@ public class ComponentPanelState extends AbstractScreenState {
 
     private class ScrollPanelOperation extends AbstractOperation {
 
-        private boolean updateScrollSize = false;
-        private boolean updateScrollPosition = false;
         private CustomPropertyListener firstItemListener = (property, oldValue, newValue) -> {
             if (scrollBar.get(ScrollConverter.class).getPercentHeight() >= 1) {
                 scrollBar.setVisible(false);
                 return;
             }
             if (SpatialProperty.Property.LOCAL_TRANSLATION.equals(property)) {
-                updateScrollPosition = true;
+                ed.setComponent(ed.createEntity(),new Delay((obj, extra) -> updateScrollPosition()));
             }
         };
         private ListPropertyListener<UIComponent> itemAddedListener = new ListPropertyAdapter<UIComponent>() {
@@ -658,14 +658,18 @@ public class ComponentPanelState extends AbstractScreenState {
                     UIComponent item = panel.get(ElementProperty.class).get(0);
                     item.get(SpatialProperty.class).addPropertyListener(firstItemListener);
                 }
-                updateScrollSize = true;
-                updateScrollPosition = true;
+                ed.setComponent(ed.createEntity(),new Delay((obj, extra) -> {
+                    updateScrollSize();
+                    updateScrollPosition();
+                }));
             }
 
             @Override
             public void propertyRemoved(int index, UIComponent value) {
-                updateScrollSize = true;
-                updateScrollPosition = true;
+                ed.setComponent(ed.createEntity(),new Delay((obj, extra) -> {
+                    updateScrollSize();
+                    updateScrollPosition();
+                }));
             }
         };
         private PropertyListener<UIComponent> setPanelListener = (oldValue, newValue) -> {
@@ -727,18 +731,6 @@ public class ComponentPanelState extends AbstractScreenState {
             InputManager.remove(listener);
         }
 
-        @Override
-        public void update(float tpf) {
-            if (updateScrollSize) {
-                updateScrollSize = false;
-                updateScrollSize();
-            }
-            if (updateScrollPosition) {
-                updateScrollPosition = false;
-                updateScrollPosition();
-            }
-        }
-
         private void updateScrollSize() {
             ScrollConverter scrollConverter = scrollBar.get(ScrollConverter.class);
             float height = scrollConverter.getPercentHeight();
@@ -752,9 +744,7 @@ public class ComponentPanelState extends AbstractScreenState {
         }
 
         private void updateScrollPosition() {
-            if (scrollBar.isVisible()) {
-                scroll.move(0, scrollBar.get(ScrollConverter.class).getYTop() - scroll.get(AABB.class).getYTop());
-            }
+            scroll.move(0, scrollBar.get(ScrollConverter.class).getYTop() - scroll.get(AABB.class).getYTop());
         }
 
     }
