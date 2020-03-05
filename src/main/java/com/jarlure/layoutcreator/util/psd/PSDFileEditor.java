@@ -1,6 +1,6 @@
 package com.jarlure.layoutcreator.util.psd;
 
-import com.jarlure.layoutcreator.bean.PSDData;
+import com.jarlure.layoutcreator.entitycomponent.psd.PSDData;
 import com.jarlure.project.bean.LayerImageData;
 import com.jarlure.project.util.file.FileEditor;
 

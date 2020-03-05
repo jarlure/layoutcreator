@@ -23,9 +23,15 @@ import static com.jarlure.project.factory.DefaultUIFactory.*;
 
 public class PSLayout extends AbstractLayout {
 
-    public static final String FONT_HEI = "simhei";//黑体
-    public static final String FONT_JING_DIAN_LI_BIAN = "JDJLIBIAN";//经典隶变简
-    public static final String FONT_TENG_XIANG_JIA_LI = "腾祥嘉丽中黑简";//腾祥嘉丽中黑简
+    public static final String FONT_HEI = "simhei";/*skip*/
+    public static final String FONT_JING_DIAN_LI_BIAN = "JDJLIBIAN";/*skip*/
+    public static final String FONT_TENG_XIANG_JIA_LI = "腾祥嘉丽中黑简";/*skip*/
+    public static String[] MENU;
+    public static String[] SUBMENU;
+    public static String[] LAYER_VISIBLE_ICON;
+    public static String[] LAYER_NAME_TEXT;
+    public static String[] LAYER_ITEM_BACKGROUND;
+    public static String[] LAYER_ITEM;
 
     public static final int BUTTON_STATE_NOTHING = 0;
     public static final int BUTTON_STATE_MOVE_ON = 1;
@@ -48,18 +54,24 @@ public class PSLayout extends AbstractLayout {
     public static final String LAYER_SCROLL_UP_ARROW = "layerScrollUpArrow";
     public static final String LAYER_SCROLL_BAR = "layerScrollBar";
     public static final String SECOND_LAYER_PREVIEW_ICON_POSITION = "secondLayerPreviewIconPosition";
-    public static final String LAYER_ITEM_BACKGROUND = "layerItemBackground";
-    public static final String LAYER_NAME_TEXT = "layerNameText";
     public static final String LAYER_NAME_TEXT_EDIT = "layerNameTextEdit";
+    public static final String LAYER_TEXT_BACKGROUND = "layerTextBackground";
+    public static final String LAYER_TEXT_NAME_TEXT = "layerTextNameText";
     public static final String LAYER_TEXT_ICON = "layerTextIcon";
     public static final String LAYER_TEXT_SELECTED_ICON = "layerTextSelectedIcon";
+    public static final String LAYER_TEXT_VISIBLE_ICON = "layerTextVisibleIcon";
+    public static final String LAYER_TEXT_ITEM = "layerTextItem";
+    public static final String LAYER_PREVIEW_BACKGROUND = "layerPreviewBackground";
+    public static final String LAYER_PREVIEW_NAME_TEXT = "layerPreviewNameText";
     public static final String LAYER_PREVIEW_ICON = "layerPreviewIcon";
     public static final String LAYER_PREVIEW_SELECTED_ICON = "layerPreviewSelectedIcon";
+    public static final String LAYER_PREVIEW_VISIBLE_ICON = "layerPreviewVisibleIcon";
+    public static final String LAYER_PREVIEW_ITEM = "layerPreviewItem";
+    public static final String LAYER_GROUP_BACKGROUND = "layerGroupBackground";
+    public static final String LAYER_GROUP_NAME_TEXT = "layerGroupNameText";
     public static final String LAYER_GROUP_ICON = "layerGroupIcon";
     public static final String LAYER_GROUP_FOLD_BUTTON = "layerGroupFoldButton";
-    public static final String LAYER_VISIBLE_ICON = "layerVisibleIcon";
-    public static final String LAYER_TEXT_ITEM = "layerTextItem";
-    public static final String LAYER_PREVIEW_ITEM = "layerPreviewItem";
+    public static final String LAYER_GROUP_VISIBLE_ICON = "layerGroupVisibleIcon";
     public static final String LAYER_GROUP_ITEM = "layerGroupItem";
     public static final String SCENE = "scene";
     public static final String SCENE_SCROLL_DOWN_ARROW = "sceneScrollDownArrow";
@@ -70,8 +82,11 @@ public class PSLayout extends AbstractLayout {
     public static final String SCENE_HORIZONTAL_SCROLL = "sceneHorizontalScroll";
     public static final String SCENE_SCROLL_LEFT_ARROW = "sceneScrollLeftArrow";
     public static final String SCENE_HORIZONTAL_SCROLL_BAR = "sceneHorizontalScrollBar";
+    public static final String FILE_TAB_PANEL = "fileTabPanel";
     public static final String FILE_TAB_BACKGROUND = "fileTabBackground";
     public static final String FILE_TAB_CLOSE_BUTTON = "fileTabCloseButton";
+    public static final String COMPONENT_PROPERTY_TYPE_LIST_ITEM = "componentPropertyTypeListItem";
+    public static final String COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM = "componentPropertyTypeListSelectItem";
     public static final String PROPERTY_DIALOG_BACKGROUND = "propertyDialogBackground";
     public static final String IMG_PROPERTY_BACKGROUND = "imgPropertyBackground";
     public static final String IMG_PROPERTY_URL_QUOTE_BUTTON = "imgPropertyUrlQuoteButton";
@@ -89,8 +104,6 @@ public class PSLayout extends AbstractLayout {
     public static final String COMPONENT_PROPERTY_TYPE_BUTTON = "componentPropertyTypeButton";
     public static final String COMPONENT_PROPERTY_TYPE_TEXT = "componentPropertyTypeText";
     public static final String COMPONENT_PROPERTY_TYPE_LIST_PANEL = "componentPropertyTypeListPanel";
-    public static final String COMPONENT_PROPERTY_TYPE_LIST_ITEM = "componentPropertyTypeListItem";
-    public static final String COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM = "componentPropertyTypeListSelectItem";
     public static final String COMPONENT_PROPERTY_TYPE = "componentPropertyType";
     public static final String COMPONENT_PROPERTY_CONTENT = "componentPropertyContent";
     public static final String PROPERTY_DIALOG = "propertyDialog";
@@ -105,14 +118,16 @@ public class PSLayout extends AbstractLayout {
     public static final String COMPONENT_SCROLL_BAR = "componentScrollBar";
     public static final String COMPONENT_DIALOG = "componentDialog";
     public static final String SECOND_COMPONENT_ICON_POSITION = "secondComponentIconPosition";
-    public static final String COMPONENT_ITEM_BACKGROUND = "componentItemBackground";
-    public static final String COMPONENT_NAME_TEXT = "componentNameText";
     public static final String COMPONENT_NAME_TEXT_EDIT = "componentNameTextEdit";
+    public static final String IMG_ITEM_BACKGROUND = "imgItemBackground";
+    public static final String IMG_NAME_TEXT = "imgNameText";
     public static final String IMG_ICON = "imgIcon";
     public static final String IMG_SELECTED_ICON = "imgSelectedIcon";
+    public static final String IMG_ITEM = "imgItem";
+    public static final String COMPONENT_ITEM_BACKGROUND = "componentItemBackground";
+    public static final String COMPONENT_NAME_TEXT = "componentNameText";
     public static final String COMPONENT_ICON = "componentIcon";
     public static final String COMPONENT_FOLD_BUTTON = "componentFoldButton";
-    public static final String IMG_ITEM = "imgItem";
     public static final String COMPONENT_ITEM = "componentItem";
     public static final String INSERT_TIP_LOWER_LINE = "insertTipLowerLine";
     public static final String INSERT_TIP_CENTER_BOX = "insertTipCenterBox";
@@ -156,8 +171,8 @@ public class PSLayout extends AbstractLayout {
     public static final String SAVE_TIP_DIALOG = "saveTipDialog";
 
     @Override
-    public Map<String, Class<Layout>> getLinkedComponentLayoutMap() {
-        Map<String,Class<Layout>> map = new HashMap<>();
+    public Map<String, Class<? extends Layout>> getLinkedComponentLayoutMap() {
+        Map<String, Class<? extends Layout>> map = new HashMap<>();
         return map;
     }
 
@@ -166,81 +181,90 @@ public class PSLayout extends AbstractLayout {
         LayoutHelper helper=new LayoutHelper(layerImageData);
         DefaultUIFactory defaultUIFactory = new DefaultUIFactory();
         helper.setDefault(defaultUIFactory);
-        helper.add(Picture, BACKGROUND, 168);
-        helper.add(Picture, WINDOW_BAR, 167);
-        helper.add(Picture, WINDOW_CLOSE_BUTTON, 166,165,164);
-        helper.add(Picture, WINDOW_MINIMIZE_BUTTON, 163,162,161);
-        helper.add(Panel, LAYER_PANEL, 160,159,158);
-        helper.add(Picture, LAYER_SCROLL_DOWN_ARROW, 157);
-        helper.add(Picture, LAYER_SCROLL, 156);
-        helper.add(Picture, LAYER_SCROLL_UP_ARROW, 155);
+        helper.add(Picture, BACKGROUND, 188);
+        helper.add(Picture, WINDOW_BAR, 187);
+        helper.add(Picture, WINDOW_CLOSE_BUTTON, 186,185,184);
+        helper.add(Picture, WINDOW_MINIMIZE_BUTTON, 183,182,181);
+        helper.add(Panel, LAYER_PANEL, 180,179,178);
+        helper.add(Picture, LAYER_SCROLL_DOWN_ARROW, 177);
+        helper.add(Picture, LAYER_SCROLL, 176);
+        helper.add(Picture, LAYER_SCROLL_UP_ARROW, 175);
         helper.add(ScrollBar, LAYER_SCROLL_BAR, LAYER_SCROLL_DOWN_ARROW,LAYER_SCROLL,LAYER_SCROLL_UP_ARROW);
-        helper.add(Picture, SECOND_LAYER_PREVIEW_ICON_POSITION, 154);
-        helper.add(Picture, LAYER_ITEM_BACKGROUND, 153,152);
-        helper.add(Picture, LAYER_NAME_TEXT, 151);
-        helper.add(Picture, LAYER_NAME_TEXT_EDIT, 150);
-        helper.add(Picture, LAYER_TEXT_ICON, 149);
-        helper.add(Picture, LAYER_TEXT_SELECTED_ICON, 148);
-        helper.add(Picture, LAYER_PREVIEW_ICON, 147);
-        helper.add(Picture, LAYER_PREVIEW_SELECTED_ICON, 146);
-        helper.add(Picture, LAYER_GROUP_ICON, 145,144);
-        helper.add(Picture, LAYER_GROUP_FOLD_BUTTON, 143);
-        helper.add(Picture, LAYER_VISIBLE_ICON, 142,141,140);
-        helper.add(Panel, LAYER_TEXT_ITEM, LAYER_ITEM_BACKGROUND,LAYER_NAME_TEXT,LAYER_TEXT_ICON,LAYER_TEXT_SELECTED_ICON,LAYER_VISIBLE_ICON);
-        helper.add(Panel, LAYER_PREVIEW_ITEM, LAYER_ITEM_BACKGROUND,LAYER_NAME_TEXT,LAYER_PREVIEW_ICON,LAYER_PREVIEW_SELECTED_ICON,LAYER_VISIBLE_ICON);
-        helper.add(Panel, LAYER_GROUP_ITEM, LAYER_ITEM_BACKGROUND,LAYER_NAME_TEXT,LAYER_GROUP_ICON,LAYER_GROUP_FOLD_BUTTON,LAYER_VISIBLE_ICON);
-        helper.add(Picture, SCENE, 139);
-        helper.add(Picture, SCENE_SCROLL_DOWN_ARROW, 138);
-        helper.add(Picture, SCENE_VERTICAL_SCROLL, 137);
-        helper.add(Picture, SCENE_SCROLL_UP_ARROW, 136);
+        helper.add(Picture, SECOND_LAYER_PREVIEW_ICON_POSITION, 174);
+        helper.add(Picture, LAYER_NAME_TEXT_EDIT, 173);
+        helper.add(Picture, LAYER_TEXT_BACKGROUND, 172,171);
+        helper.add(Picture, LAYER_TEXT_NAME_TEXT, 170);
+        helper.add(Picture, LAYER_TEXT_ICON, 169);
+        helper.add(Picture, LAYER_TEXT_SELECTED_ICON, 168);
+        helper.add(Picture, LAYER_TEXT_VISIBLE_ICON, 167,166,165);
+        helper.add(Panel, LAYER_TEXT_ITEM, LAYER_TEXT_BACKGROUND,LAYER_TEXT_NAME_TEXT,LAYER_TEXT_ICON,LAYER_TEXT_SELECTED_ICON,LAYER_TEXT_VISIBLE_ICON);
+        helper.add(Picture, LAYER_PREVIEW_BACKGROUND, 164,163);
+        helper.add(Picture, LAYER_PREVIEW_NAME_TEXT, 162);
+        helper.add(Picture, LAYER_PREVIEW_ICON, 161);
+        helper.add(Picture, LAYER_PREVIEW_SELECTED_ICON, 160);
+        helper.add(Picture, LAYER_PREVIEW_VISIBLE_ICON, 159,158,157);
+        helper.add(Panel, LAYER_PREVIEW_ITEM, LAYER_PREVIEW_BACKGROUND,LAYER_PREVIEW_NAME_TEXT,LAYER_PREVIEW_ICON,LAYER_PREVIEW_SELECTED_ICON,LAYER_PREVIEW_VISIBLE_ICON);
+        helper.add(Picture, LAYER_GROUP_BACKGROUND, 156,155);
+        helper.add(Picture, LAYER_GROUP_NAME_TEXT, 154);
+        helper.add(Picture, LAYER_GROUP_ICON, 153,152);
+        helper.add(Picture, LAYER_GROUP_FOLD_BUTTON, 151);
+        helper.add(Picture, LAYER_GROUP_VISIBLE_ICON, 150,149,148);
+        helper.add(Panel, LAYER_GROUP_ITEM, LAYER_GROUP_BACKGROUND,LAYER_GROUP_NAME_TEXT,LAYER_GROUP_ICON,LAYER_GROUP_FOLD_BUTTON,LAYER_GROUP_VISIBLE_ICON);
+        helper.add(Picture, SCENE, 147);
+        helper.add(Picture, SCENE_SCROLL_DOWN_ARROW, 146);
+        helper.add(Picture, SCENE_VERTICAL_SCROLL, 145);
+        helper.add(Picture, SCENE_SCROLL_UP_ARROW, 144);
         helper.add(ScrollBar, SCENE_VERTICAL_SCROLL_BAR, SCENE_SCROLL_DOWN_ARROW,SCENE_VERTICAL_SCROLL,SCENE_SCROLL_UP_ARROW);
-        helper.add(Picture, SCENE_SCROLL_RIGHT_ARROW, 135);
-        helper.add(Picture, SCENE_HORIZONTAL_SCROLL, 134);
-        helper.add(Picture, SCENE_SCROLL_LEFT_ARROW, 133);
+        helper.add(Picture, SCENE_SCROLL_RIGHT_ARROW, 143);
+        helper.add(Picture, SCENE_HORIZONTAL_SCROLL, 142);
+        helper.add(Picture, SCENE_SCROLL_LEFT_ARROW, 141);
         helper.add(ScrollBar, SCENE_HORIZONTAL_SCROLL_BAR, SCENE_SCROLL_RIGHT_ARROW,SCENE_HORIZONTAL_SCROLL,SCENE_SCROLL_LEFT_ARROW);
-        helper.add(Picture, FILE_TAB_BACKGROUND, 132);
-        helper.add(Picture, FILE_TAB_CLOSE_BUTTON, 131);
-        helper.add(Picture, PROPERTY_DIALOG_BACKGROUND, 130);
-        helper.add(Picture, IMG_PROPERTY_BACKGROUND, 129,128,127,126,125,124);
-        helper.add(Picture, IMG_PROPERTY_URL_QUOTE_BUTTON, 123,122);
-        helper.add(Picture, IMG_PROPERTY_URL_TEXT, 121);
-        helper.add(Picture, IMG_PROPERTY_URL_ENABLE_CHECK_BOX, 120,119);
+        helper.add(Panel, FILE_TAB_PANEL, 140);
+        helper.add(Picture, FILE_TAB_BACKGROUND, 139,138,137);
+        helper.add(Picture, FILE_TAB_CLOSE_BUTTON, 136,135,134);
+        helper.add(Picture, COMPONENT_PROPERTY_TYPE_LIST_ITEM, 133);
+        helper.add(Picture, COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM, 132);
+        helper.add(Picture, PROPERTY_DIALOG_BACKGROUND, 131);
+        helper.add(Picture, IMG_PROPERTY_BACKGROUND, 130,129,128,127,126,125);
+        helper.add(Picture, IMG_PROPERTY_URL_QUOTE_BUTTON, 124,123);
+        helper.add(Picture, IMG_PROPERTY_URL_TEXT, 122);
+        helper.add(Picture, IMG_PROPERTY_URL_ENABLE_CHECK_BOX, 121,120);
         helper.add(Node, IMG_PROPERTY_URL, IMG_PROPERTY_URL_QUOTE_BUTTON,IMG_PROPERTY_URL_TEXT,IMG_PROPERTY_URL_ENABLE_CHECK_BOX);
-        helper.add(Picture, IMG_PROPERTY_NAME_QUOTE_BUTTON, 118,117);
-        helper.add(Picture, IMG_PROPERTY_NAME_TEXT, 116);
+        helper.add(Picture, IMG_PROPERTY_NAME_QUOTE_BUTTON, 119,118);
+        helper.add(Picture, IMG_PROPERTY_NAME_TEXT, 117);
         helper.add(Node, IMG_PROPERTY_NAME, IMG_PROPERTY_NAME_QUOTE_BUTTON,IMG_PROPERTY_NAME_TEXT);
         helper.add(Node, IMG_PROPERTY_CONTENT, IMG_PROPERTY_BACKGROUND,IMG_PROPERTY_URL,IMG_PROPERTY_NAME);
-        helper.add(Picture, COMPONENT_PROPERTY_BACKGROUND, 115,114,113,112,111,110);
-        helper.add(Picture, COMPONENT_PROPERTY_LINK_TEXT, 109);
-        helper.add(Picture, COMPONENT_PROPERTY_NAME_TEXT, 108);
-        helper.add(Picture, COMPONENT_PROPERTY_TEXT_EDIT, 107);
-        helper.add(Picture, COMPONENT_PROPERTY_TYPE_BUTTON, 106,105);
-        helper.add(Picture, COMPONENT_PROPERTY_TYPE_TEXT, 104,103);
-        helper.add(Panel, COMPONENT_PROPERTY_TYPE_LIST_PANEL, 102,101,100);
-        helper.add(Picture, COMPONENT_PROPERTY_TYPE_LIST_ITEM, 99);
-        helper.add(Picture, COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM, 98);
+        helper.add(Picture, COMPONENT_PROPERTY_BACKGROUND, 116,115,114,113,112,111);
+        helper.add(Picture, COMPONENT_PROPERTY_LINK_TEXT, 110);
+        helper.add(Picture, COMPONENT_PROPERTY_NAME_TEXT, 109);
+        helper.add(Picture, COMPONENT_PROPERTY_TEXT_EDIT, 108);
+        helper.add(Picture, COMPONENT_PROPERTY_TYPE_BUTTON, 107,106);
+        helper.add(Picture, COMPONENT_PROPERTY_TYPE_TEXT, 105,104);
+        helper.add(Panel, COMPONENT_PROPERTY_TYPE_LIST_PANEL, 103,102,101);
         helper.add(Node, COMPONENT_PROPERTY_TYPE, COMPONENT_PROPERTY_TYPE_BUTTON,COMPONENT_PROPERTY_TYPE_TEXT,COMPONENT_PROPERTY_TYPE_LIST_PANEL);
         helper.add(Node, COMPONENT_PROPERTY_CONTENT, COMPONENT_PROPERTY_BACKGROUND,COMPONENT_PROPERTY_LINK_TEXT,COMPONENT_PROPERTY_NAME_TEXT,COMPONENT_PROPERTY_TEXT_EDIT,COMPONENT_PROPERTY_TYPE);
         helper.add(Dialog, PROPERTY_DIALOG, PROPERTY_DIALOG_BACKGROUND,IMG_PROPERTY_CONTENT,COMPONENT_PROPERTY_CONTENT);
-        helper.add(Picture, COMPONENT_DIALOG_BACKGROUND, 97);
-        helper.add(Picture, DELETE_COMPONENT_BUTTON, 96,95,94);
-        helper.add(Picture, ADD_IMG_BUTTON, 93,92,91);
-        helper.add(Picture, ADD_COMPONENT_BUTTON, 90,89,88);
-        helper.add(Panel, COMPONENT_PANEL, 87,86,85);
-        helper.add(Picture, COMPONENT_SCROLL_DOWN_ARROW, 84);
-        helper.add(Picture, COMPONENT_SCROLL, 83);
-        helper.add(Picture, COMPONENT_SCROLL_UP_ARROW, 82);
+        helper.add(Picture, COMPONENT_DIALOG_BACKGROUND, 100);
+        helper.add(Picture, DELETE_COMPONENT_BUTTON, 99,98,97);
+        helper.add(Picture, ADD_IMG_BUTTON, 96,95,94);
+        helper.add(Picture, ADD_COMPONENT_BUTTON, 93,92,91);
+        helper.add(Panel, COMPONENT_PANEL, 90,89,88);
+        helper.add(Picture, COMPONENT_SCROLL_DOWN_ARROW, 87);
+        helper.add(Picture, COMPONENT_SCROLL, 86);
+        helper.add(Picture, COMPONENT_SCROLL_UP_ARROW, 85);
         helper.add(ScrollBar, COMPONENT_SCROLL_BAR, COMPONENT_SCROLL_DOWN_ARROW,COMPONENT_SCROLL,COMPONENT_SCROLL_UP_ARROW);
         helper.add(Dialog, COMPONENT_DIALOG, COMPONENT_DIALOG_BACKGROUND,DELETE_COMPONENT_BUTTON,ADD_IMG_BUTTON,ADD_COMPONENT_BUTTON,COMPONENT_PANEL,COMPONENT_SCROLL_BAR);
-        helper.add(Picture, SECOND_COMPONENT_ICON_POSITION, 81);
-        helper.add(Picture, COMPONENT_ITEM_BACKGROUND, 80,79);
-        helper.add(Picture, COMPONENT_NAME_TEXT, 78);
-        helper.add(Picture, COMPONENT_NAME_TEXT_EDIT, 77);
-        helper.add(Picture, IMG_ICON, 76);
-        helper.add(Picture, IMG_SELECTED_ICON, 75);
+        helper.add(Picture, SECOND_COMPONENT_ICON_POSITION, 84);
+        helper.add(Picture, COMPONENT_NAME_TEXT_EDIT, 83);
+        helper.add(Picture, IMG_ITEM_BACKGROUND, 82,81);
+        helper.add(Picture, IMG_NAME_TEXT, 80);
+        helper.add(Picture, IMG_ICON, 79);
+        helper.add(Picture, IMG_SELECTED_ICON, 78);
+        helper.add(Panel, IMG_ITEM, IMG_ITEM_BACKGROUND,IMG_NAME_TEXT,IMG_ICON,IMG_SELECTED_ICON);
+        helper.add(Picture, COMPONENT_ITEM_BACKGROUND, 77,76);
+        helper.add(Picture, COMPONENT_NAME_TEXT, 75);
         helper.add(Picture, COMPONENT_ICON, 74,73);
         helper.add(Picture, COMPONENT_FOLD_BUTTON, 72);
-        helper.add(Panel, IMG_ITEM, COMPONENT_ITEM_BACKGROUND,COMPONENT_NAME_TEXT,IMG_ICON,IMG_SELECTED_ICON);
         helper.add(Panel, COMPONENT_ITEM, COMPONENT_ITEM_BACKGROUND,COMPONENT_NAME_TEXT,COMPONENT_ICON,COMPONENT_FOLD_BUTTON);
         helper.add(Picture, INSERT_TIP_LOWER_LINE, 71);
         helper.add(Picture, INSERT_TIP_CENTER_BOX, 70);
@@ -287,26 +311,36 @@ public class PSLayout extends AbstractLayout {
         helper.set(COMPONENT_NAME_TEXT_EDIT,new NameTextEditFactory());
         helper.set(COMPONENT_PROPERTY_TEXT_EDIT,new NameTextEditFactory());
 
+        helper.set(FILE_TAB_BACKGROUND,new DynamicUIFactory(defaultUIFactory));
+        helper.set(FILE_TAB_CLOSE_BUTTON,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_GROUP_ITEM,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_PREVIEW_ITEM,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_TEXT_ITEM,new DynamicUIFactory(defaultUIFactory));
-        helper.set(LAYER_VISIBLE_ICON,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_GROUP_VISIBLE_ICON,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_GROUP_FOLD_BUTTON,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_GROUP_ICON,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_GROUP_NAME_TEXT,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_GROUP_BACKGROUND,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_PREVIEW_VISIBLE_ICON,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_PREVIEW_SELECTED_ICON,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_PREVIEW_ICON,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_PREVIEW_NAME_TEXT,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_PREVIEW_BACKGROUND,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_TEXT_VISIBLE_ICON,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_TEXT_SELECTED_ICON,new DynamicUIFactory(defaultUIFactory));
         helper.set(LAYER_TEXT_ICON,new DynamicUIFactory(defaultUIFactory));
-        helper.set(LAYER_NAME_TEXT,new DynamicUIFactory(defaultUIFactory));
-        helper.set(LAYER_ITEM_BACKGROUND,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_TEXT_NAME_TEXT,new DynamicUIFactory(defaultUIFactory));
+        helper.set(LAYER_TEXT_BACKGROUND,new DynamicUIFactory(defaultUIFactory));
         helper.set(COMPONENT_ITEM,new DynamicUIFactory(defaultUIFactory));
-        helper.set(IMG_ITEM,new DynamicUIFactory(defaultUIFactory));
         helper.set(COMPONENT_FOLD_BUTTON,new DynamicUIFactory(defaultUIFactory));
         helper.set(COMPONENT_ICON,new DynamicUIFactory(defaultUIFactory));
-        helper.set(IMG_SELECTED_ICON,new DynamicUIFactory(defaultUIFactory));
-        helper.set(IMG_ICON,new DynamicUIFactory(defaultUIFactory));
         helper.set(COMPONENT_NAME_TEXT,new DynamicUIFactory(defaultUIFactory));
         helper.set(COMPONENT_ITEM_BACKGROUND,new DynamicUIFactory(defaultUIFactory));
+        helper.set(IMG_ITEM,new DynamicUIFactory(defaultUIFactory));
+        helper.set(IMG_SELECTED_ICON,new DynamicUIFactory(defaultUIFactory));
+        helper.set(IMG_ICON,new DynamicUIFactory(defaultUIFactory));
+        helper.set(IMG_NAME_TEXT,new DynamicUIFactory(defaultUIFactory));
+        helper.set(IMG_ITEM_BACKGROUND,new DynamicUIFactory(defaultUIFactory));
         helper.set(COMPONENT_PROPERTY_TYPE_LIST_ITEM,new DynamicUIFactory(defaultUIFactory));
 
         return helper.create(getClass().getSimpleName());
@@ -314,70 +348,69 @@ public class PSLayout extends AbstractLayout {
 
     @Override
     protected void configureUIComponent() {
-        String[] menuName=new String[]{
-                MENU_FILE,MENU_EDIT,MENU_IMAGE,MENU_LAYER,MENU_TYPE,MENU_SELECT,MENU_FILTER,MENU_3D,MENU_VIEW,MENU_WINDOW,MENU_HELP
-        };
-        String[] submenuName=new String[]{
-                SUBMENU_FILE,SUBMENU_EDIT,SUBMENU_IMAGE,SUBMENU_LAYER,SUBMENU_TYPE,SUBMENU_SELECT,SUBMENU_FILTER,SUBMENU_3D,SUBMENU_VIEW,SUBMENU_WINDOW,SUBMENU_HELP
-        };
-        for (int i = 0; i < menuName.length; i++) {
-            UIComponent submenu = getComponent(submenuName[i]);
+        MENU=new String[]{MENU_FILE,MENU_EDIT,MENU_IMAGE,MENU_LAYER,MENU_TYPE,MENU_SELECT,MENU_FILTER,MENU_3D,MENU_VIEW,MENU_WINDOW,MENU_HELP};
+        SUBMENU=new String[]{SUBMENU_FILE,SUBMENU_EDIT,SUBMENU_IMAGE,SUBMENU_LAYER,SUBMENU_TYPE,SUBMENU_SELECT,SUBMENU_FILTER,SUBMENU_3D,SUBMENU_VIEW,SUBMENU_WINDOW,SUBMENU_HELP};
+        LAYER_VISIBLE_ICON=new String[]{LAYER_GROUP_VISIBLE_ICON,LAYER_PREVIEW_VISIBLE_ICON,LAYER_TEXT_VISIBLE_ICON};
+        LAYER_NAME_TEXT=new String[]{LAYER_GROUP_NAME_TEXT,LAYER_PREVIEW_NAME_TEXT,LAYER_TEXT_NAME_TEXT};
+        LAYER_ITEM_BACKGROUND=new String[]{LAYER_GROUP_BACKGROUND,LAYER_PREVIEW_BACKGROUND,LAYER_TEXT_BACKGROUND};
+        LAYER_ITEM=new String[]{LAYER_GROUP_ITEM,LAYER_PREVIEW_ITEM,LAYER_TEXT_ITEM};
+        for (int i = 0; i < MENU.length; i++) {
+            UIComponent submenu = getComponent(SUBMENU[i]);
             submenu.setVisible(false);
-            UIComponent menu = getComponent(menuName[i]);
+            UIComponent menu = getComponent(MENU[i]);
             SwitchEffect switchEffect = menu.get(SwitchEffect.class);
             menu.get(ImageProperty.class).addPropertyListener((oldValue, newValue) -> submenu.setVisible(BUTTON_STATE_PRESSED==switchEffect.getIndexOfCurrentImage()));
         }
-        String[] invisible=new String[]{
-                SAVE_TIP_DIALOG
+        invisible(SAVE_TIP_DIALOG
                 ,SUBMENU_FILE_CLOSE,SUBMENU_FILE_SAVE,SUBMENU_FILE_SAVE_TO,SUBMENU_EDIT_UNDO,SUBMENU_EDIT_REDO
+                ,FILE_TAB_BACKGROUND,FILE_TAB_CLOSE_BUTTON
                 ,SCENE_HORIZONTAL_SCROLL_BAR,SCENE_VERTICAL_SCROLL_BAR
                 ,SECOND_LAYER_PREVIEW_ICON_POSITION,LAYER_SCROLL_BAR,LAYER_NAME_TEXT_EDIT
                 ,COMPONENT_DIALOG,COMPONENT_SCROLL_BAR,ADD_COMPONENT_BUTTON,ADD_IMG_BUTTON,DELETE_COMPONENT_BUTTON
                 ,INSERT_TIP_UPPER_LINE,INSERT_TIP_CENTER_BOX,INSERT_TIP_LOWER_LINE,SECOND_COMPONENT_ICON_POSITION,COMPONENT_NAME_TEXT_EDIT
                 ,PROPERTY_DIALOG,COMPONENT_PROPERTY_TYPE_LIST_PANEL,COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM,COMPONENT_PROPERTY_TEXT_EDIT
-//                ,PROPERTY_DIALOG,COMPONENT_PROPERTY_TYPE_LIST_PANEL,COMPONENT_PROPERTY_TYPE_LIST_TEXT,COMPONENT_PROPERTY_TYPE_LIST_ITEM
-        };
-        for (String name:invisible){
+        );
+        setDepth(SAVE_TIP_DIALOG,3);
+        setDepth(SUBMENU,2);
+        setDepth(INSERT_TIP_UPPER_LINE,1.3f);
+        setDepth(INSERT_TIP_CENTER_BOX,1.3f);
+        setDepth(INSERT_TIP_LOWER_LINE,1.3f);
+        setDepth(COMPONENT_NAME_TEXT_EDIT,1.2f);
+        setDepth(COMPONENT_DIALOG,1.2f);
+        setDepth(COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM,1.2f);
+        setDepth(COMPONENT_PROPERTY_TEXT_EDIT,1.2f);
+        setDepth(PROPERTY_DIALOG,1.2f);
+
+        setFont(FONT_TENG_XIANG_JIA_LI,12,ColorRGBA.White
+                ,COMPONENT_PROPERTY_TYPE_TEXT,COMPONENT_PROPERTY_NAME_TEXT,COMPONENT_PROPERTY_LINK_TEXT
+                ,IMG_PROPERTY_NAME_TEXT,IMG_PROPERTY_URL_TEXT
+                ,FILE_TAB_BACKGROUND
+        );
+    }
+
+    private void invisible(String... names){
+        for (String name:names){
             getComponent(name).setVisible(false);
         }
-        getComponent(SAVE_TIP_DIALOG).setDepth(3);
-        for (String submenu:submenuName){
-            getComponent(submenu).setDepth(2);
+    }
+
+    private void setDepth(String[] names,float depth){
+        for (String name:names){
+            getComponent(name).setDepth(depth);
         }
-        getComponent(INSERT_TIP_UPPER_LINE).setDepth(1.2f);
-        getComponent(INSERT_TIP_CENTER_BOX).setDepth(1.2f);
-        getComponent(INSERT_TIP_LOWER_LINE).setDepth(1.2f);
-        getComponent(COMPONENT_NAME_TEXT_EDIT).setDepth(1.2f);
-        getComponent(COMPONENT_DIALOG).setDepth(1);
-        getComponent(COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM).setDepth(1.2f);
-        getComponent(COMPONENT_PROPERTY_TEXT_EDIT).setDepth(1.2f);
-        getComponent(PROPERTY_DIALOG).setDepth(1);
+    }
 
-        String[] propretyTextArray = new String[]{
-                COMPONENT_PROPERTY_TYPE_TEXT,COMPONENT_PROPERTY_NAME_TEXT,COMPONENT_PROPERTY_LINK_TEXT
-                ,IMG_PROPERTY_NAME_TEXT,IMG_PROPERTY_URL_TEXT
-        };
+    private void setDepth(String name,float depth){
+        getComponent(name).setDepth(depth);
+    }
 
-        for (String text:propretyTextArray){
+    private void setFont(String fontName,int size,ColorRGBA color,String... textNames){
+        for (String text:textNames){
             Font font = getComponent(text).get(FontProperty.class).getFont();
-            font.setName(FONT_TENG_XIANG_JIA_LI);
-            font.setColor(ColorRGBA.White);
-            font.setSize(12);
+            font.setColor(color);
+            font.setSize(size);
+            font.setName(fontName);
         }
-
-//        getComponent(COMPONENT_ITEM).set(UIFactory.class,recycleUIFactory);
-//        getComponent(COMPONENT_PROPERTY_TYPE_LIST_ITEM).set(UIFactory.class,recycleUIFactory);
-
-//        String[] propertyTextArray = new String[]{
-//                COMPONENT_PROPERTY_TYPE_TEXT,COMPONENT_PROPERTY_NAME_TEXT,COMPONENT_PROPERTY_LINK_TEXT,
-//                IMG_PROPERTY_NAME_TEXT,IMG_PROPERTY_URL_TEXT
-//        };
-//        for (String text:propertyTextArray){
-//            Font font = getComponent(text).get(FontProperty.class).getFont();
-//            font.setName(Font.TENG_XIANG_JIA_LI);
-//            font.setColor(ColorRGBA.White);
-//            font.setSize(12);
-//        }
     }
 
 }

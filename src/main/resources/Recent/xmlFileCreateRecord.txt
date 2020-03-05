@@ -1,6 +1,2 @@
-C:\Users\Administrator\Desktop\tt.xml
-E:\IdeaProjects\paperdorm\src\main\resources\Interface\LoadingLayout\LoadingLayout.xml
-C:\Users\Administrator\Desktop\PSLayout.xml
-E:\IdeaProjects\paperdorm\src\main\resources\Interface\StartLayout\StartLayout.xml
-E:\IdeaProjects\paperdorm\src\main\resources\Interface\PhoneLayout\PhoneLayout.xml
-E:\IdeaProjects\paperdorm\src\main\resources\Interface\DesignLayout\DesignLayout.xml
+E:\IdeaProjects\layoutcreator\src\main\resources\Interface\PSLayout\PSLayout.xml
+C:\Users\Administrator\Desktop\TIMµÇÂ¼½çÃæ.xml

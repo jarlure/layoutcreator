@@ -1,10 +1,12 @@
 package com.jarlure.layoutcreator.util.psd;
 
-import com.jarlure.layoutcreator.bean.PSDData;
+import com.jarlure.layoutcreator.entitycomponent.psd.PSDData;
 import com.jarlure.project.bean.LayerImageData;
 import com.jarlure.project.util.file.FileReader;
 import com.jarlure.ui.util.ImageHandler;
+import com.jme3.math.ColorRGBA;
 import com.jme3.texture.Image;
+import com.jme3.texture.image.ImageRaster;
 import com.simsilica.es.EntityData;
 
 import java.io.File;
@@ -143,17 +145,17 @@ public class PSDFileReader {
             } else v19 = new LayerImageData();
             v10 = N(v19, v16);
             v11 = J(v8, v19);
-            int[][] a = ImageHandler.CompressionMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
-            int[][] r = ImageHandler.CompressionMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
-            int[][] g = ImageHandler.CompressionMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
-            int[][] b = ImageHandler.CompressionMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
+            int[][] a = CompressMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
+            int[][] r = CompressMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
+            int[][] g = CompressMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
+            int[][] b = CompressMethod.decompress((ByteBuffer) v3, v17.hashCode(), v18.hashCode());
             if (a != null) {
                 for (int i = v17.hashCode() - 1; i >= 0; i--) {
                     for (int j = v18.hashCode() - 1; j >= 0; j--) {
                         a[i][j] *= v15.hashCode() / 255f;
                     }
                 }
-                v12 = ImageHandler.toImage(new int[][][]{r, g, b, a}, true);
+                v12 = CompressMethod.toImage(new int[][][]{r, g, b, a}, true);
                 v13 = S(v19, v12);
             }
 
@@ -330,6 +332,149 @@ public class PSDFileReader {
         v8 = A(v1, v2);
         v9 = L(v1, v2);
         return v9;
+    }
+
+    public static final class CompressMethod {
+
+        public enum Compression {
+            NULL(-1),
+            RAW(0), //未经过压缩处理
+            DLE(1), //RLE 压缩方式
+            ZIP(2), //ZIP 压缩方式
+            ZIP_WITH_PREDICTION(3);//ZIP 压缩方式（with prediction）
+
+            private int index;
+
+            Compression(int index) {
+                this.index = index;
+            }
+
+            public static Compression get(int index) {
+                switch (index) {
+                    case 0:
+                        return RAW;
+                    case 1:
+                        return DLE;
+                    case 2:
+                        return ZIP;
+                    case 3:
+                        return ZIP_WITH_PREDICTION;
+                    default:
+                        return NULL;
+                }
+            }
+
+            public int getIndex() {
+                return index;
+            }
+
+        }
+
+        public static Image decompressImg(byte[][] compressedImg, int width, int height) {
+            int[][][] channelImg = new int[4][][];
+            channelImg[0] = decompress(ByteBuffer.wrap(compressedImg[0]), height, width);
+            channelImg[1] = decompress(ByteBuffer.wrap(compressedImg[1]), height, width);
+            channelImg[2] = decompress(ByteBuffer.wrap(compressedImg[2]), height, width);
+            channelImg[3] = decompress(ByteBuffer.wrap(compressedImg[3]), height, width);
+            Image img = toImage(channelImg, true);
+            return img;
+        }
+
+        private static Image toImage(int[][][] channelRGBAImg, boolean flipY) {
+            int height = channelRGBAImg[0].length;
+            int width = channelRGBAImg[0][0].length;
+            Image img = ImageHandler.createEmptyImage(width, height);
+            ImageRaster raster = ImageRaster.create(img);
+            ColorRGBA color = new ColorRGBA();
+            for (int y = 0; y < height; y++) {
+                int imgY = flipY ? height - 1 - y : y;
+                for (int x = 0; x < width; x++) {
+                    float r = channelRGBAImg[0][y][x] *ImageHandler.INV_255;
+                    float g = channelRGBAImg[1][y][x] *ImageHandler.INV_255;
+                    float b = channelRGBAImg[2][y][x] *ImageHandler.INV_255;
+                    float a = channelRGBAImg[3][y][x] *ImageHandler.INV_255;
+                    color.set(r, g, b, a);
+                    raster.setPixel(x, imgY, color);
+                }
+            }
+            return img;
+        }
+
+        private static int[][] decompress(ByteBuffer buffer, int height, int width) {
+            Compression compression = Compression.get(buffer.getShort());
+            if (height == 0 || width == 0) return null;
+            int[][] channelImg = new int[height][width];
+            switch (compression) {
+                case RAW:
+                    return readDataWithoutDecompression(buffer, channelImg);
+                case DLE:
+                    return readDataDepressedByRLE(buffer, channelImg);
+                case ZIP:
+                    return null;
+                case ZIP_WITH_PREDICTION:
+                    return null;
+                default:
+                    return channelImg;
+            }
+        }
+
+        private static int[][] readDataWithoutDecompression(ByteBuffer buffer, int[][] channelImg) {
+            int width = channelImg[0].length;
+            for (int[] imgy : channelImg) {
+                for (int x = 0; x < width; x++) {
+                    int value = buffer.get();
+                    if (value < 0) value += 256;
+                    imgy[x] = value;
+                }
+            }
+            return channelImg;
+        }
+
+        private static int[][] readDataDepressedByRLE(ByteBuffer buffer, int[][] store) {
+            int height = store.length;
+            int width = store[0].length;
+            int[] count = new int[height];
+            for (int i = 0; i < height; i++) {
+                int value = buffer.getShort();
+                if (value < 0) value += 65536;
+                count[i] = value;
+            }
+            for (int i = 0; i < height; i++) {
+                store[i] = readALineOfChannelColor(buffer, count[i], width);
+            }
+            return store;
+        }
+
+        private static int[] readALineOfChannelColor(ByteBuffer buffer, int numberOfByte, int width) {
+            int[] channelColor = new int[width];
+            int indexOfChannelColor = 0;
+            for (int numberOfByteRead = 0; numberOfByteRead < numberOfByte; numberOfByteRead++) {
+                short mark = buffer.get();
+                if (mark == -128) continue;
+                boolean isSameValue = mark < 0;
+                if (isSameValue) {
+                    int repeatTime = -mark + 1;
+                    int repeatValue = buffer.get();
+                    if (repeatValue < 0) repeatValue += 256;
+                    numberOfByteRead++;
+                    for (int t = 0; t < repeatTime; t++) {
+                        channelColor[indexOfChannelColor] = repeatValue;
+                        indexOfChannelColor++;
+                    }
+                } else {
+                    int totalTime = mark + 1;
+                    for (int t = 0; t < totalTime; t++) {
+                        int value = buffer.get();
+                        numberOfByteRead++;
+                        if (value < 0) value += 256;
+                        channelColor[indexOfChannelColor] = value;
+                        indexOfChannelColor++;
+                    }
+                }
+            }
+            return channelColor;
+        }
+
     }
 
 }

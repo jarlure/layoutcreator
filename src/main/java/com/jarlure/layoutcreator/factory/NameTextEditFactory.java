@@ -56,7 +56,7 @@ public class NameTextEditFactory extends AbstractUIFactory {
                 Font font = picture.get(FontProperty.class).getFont();
                 TextProperty textProperty = picture.get(TextProperty.class);
                 String text = textProperty.getText();
-                int[] newImgTextPos = ImageHandler.drawFont(textDrawImg,font,text,textProperty.getStartX(),textProperty.getStartY(),textDrawImg.getWidth()-textProperty.getStartX(),textProperty.getEndY(),textProperty.getAlign());
+                int[] newImgTextPos = ImageHandler.drawText(textDrawImg,font,text,textProperty.getStartX(),textProperty.getStartY(),textDrawImg.getWidth()-textProperty.getStartX(),textProperty.getEndY(),textProperty.getAlign());
                 //更新文本编辑框的尺寸
                 if (property.equals(TextProperty.Property.TEXT)){
                     int width = newImgTextPos[newImgTextPos.length-2]+2*font.getSize();
@@ -88,7 +88,7 @@ public class NameTextEditFactory extends AbstractUIFactory {
                     }
                 }
                 des = ImageHandler.clone(textProperty.getSrc());
-                ImageHandler.drawCombine(des,textDrawImg,0,0);
+                ImageHandler.drawCombine(des,0,0,textDrawImg);
                 picture.get(ImageProperty.class).setImage(des);
                 textProperty.setDes(des,imgTextPos);
             };
@@ -132,7 +132,7 @@ public class NameTextEditFactory extends AbstractUIFactory {
                     if (src==null)return;
                     if (des==null)return;
                     ImageHandler.drawCut(des,0,0,src,0,0,src.getWidth(),src.getHeight());
-                    ImageHandler.drawCombine(des,textDrawImg,0,0);
+                    ImageHandler.drawCombine(des,0,0,textDrawImg);
                     textMarkForSelection=null;
                 }
             };

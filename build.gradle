@@ -21,8 +21,8 @@ dependencies {
     implementation "${jme3.g}:jme3-core:${jme3.v}"
     implementation "${jme3.g}:jme3-lwjgl:${jme3.v}"
     implementation "${jme3.g}:jme3-desktop:${jme3.v}"
-    implementation 'com.github.jarlure:ui:1.0.1'
-    implementation 'com.github.jarlure:project:1.0.1'
+    implementation 'com.github.jarlure:ui:2.0.2'
+    implementation 'com.github.jarlure:project:1.0.7'
     implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
     implementation group: 'com.wutka', name: 'dtdparser', version: '1.21'
     implementation "com.simsilica:zay-es:1.2.1"

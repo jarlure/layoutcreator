@@ -1,6 +1,9 @@
 package com.jarlure.layoutcreator.entrance;
 
+import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
+import com.jme3.system.JmeContext;
+import com.jme3.system.NativeLibraryLoader;
 import org.lwjgl.opengl.Display;
 
 import java.awt.*;
@@ -10,17 +13,21 @@ import java.util.NoSuchElementException;
 public class Main {
 
     public static void main(String[] args) {
+        //程序界面尺寸：固定宽高
         int width = 1162;
         int height = 691;
+        //创建程序界面自定义外框（左上右上角是圆角，左下右下角是直角的矩形框）
         Frame frame = Helper.createFrame(width, height);
-
-        MyApplication app = new MyApplication(frame);
+        SimpleApplication app = new MyApplication(frame);
+        //设置程序参数配置
         AppSettings settings = new AppSettings(true);
         settings.setWidth(width);
         settings.setHeight(height);
-        settings.setFrameRate(30);
+        settings.setFrameRate(30);//固定刷新频率为30帧每秒：减少不必要的内存开销和CPU、GPU资源占用
+        //提交程序参数配置，启动程序
         app.setSettings(settings);
-        app.setShowSettings(false);
+        app.setShowSettings(false);//不显示程序参数配置界面：不允许用户调整参数
+//        app.start(JmeContext.Type.Canvas);
         app.start();
     }
 
@@ -28,15 +35,21 @@ public class Main {
 
         private static Frame createFrame(int width, int height) {
             Frame frame = new Frame();
+            //将程序界面注册到lwjgl：以后lwjgl将会把画面渲染到该界面上
             Helper.addCanvas(frame);
+            //不使用标题栏
             frame.setUndecorated(true);
+            //设置程序界面尺寸
             frame.setSize(width, height);
+            //居中显示程序界面
             Helper.center(frame);
+            //设置程序界面边框外形
             frame.setShape(new TopRoundRectangle2D(0,0,width,height,12,12));
             return frame;
         }
 
         private static void addCanvas(Window window) {
+            NativeLibraryLoader.loadNativeLibrary("lwjgl", true);
             Canvas canvas = new Canvas();
             window.add(canvas);
             try {
@@ -63,8 +76,7 @@ public class Main {
 
         private RoundRectangle2D shape;
 
-        public TopRoundRectangle2D(double x, double y, double w, double h,
-                                   double arcw, double arch){
+        public TopRoundRectangle2D(double x, double y, double w, double h, double arcw, double arch){
             shape = new RoundRectangle2D.Double(x, y, w, h, arcw, arch);
         }
 

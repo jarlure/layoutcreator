@@ -108,19 +108,19 @@ public class ComponentConfigureXMLFileEditor {
         doc.addDocType("Layout",null,"layout.dtd");
         Element root = doc.addElement("Layout");
         for (int index:data.getItems()){
-            String componentType = data.getValue(index,Component.Type);
-            String componentName = data.getValue(index,Component.Name);
-            String componentLink = data.getValue(index,Component.Link);
-            Entity componentImg = data.getValue(index,Component.Img);
-            Entity componentChild = data.getValue(index,Component.Child);
+            String componentType = data.getValue(index, Component.Type);
+            String componentName = data.getValue(index, Component.Name);
+            String componentLink = data.getValue(index, Component.Link);
+            Entity componentImg = data.getValue(index, Component.Img);
+            Entity componentChild = data.getValue(index, Component.Child);
 
             Element component = root.addElement(componentType);
             component.addAttribute("name",componentName);
             if (componentLink!=null && !componentLink.isEmpty()) component.addAttribute("link",componentLink);
             if (!componentImg.isEmpty()){
                 for (int i:componentImg.getItems()){
-                    String name = componentImg.getValue(i,Img.Name);
-                    String url = componentImg.getValue(i,Img.URL);
+                    String name = componentImg.getValue(i, Img.Name);
+                    String url = componentImg.getValue(i, Img.URL);
 
                     Element img = component.addElement("img");
                     img.addAttribute("name",name);
@@ -129,7 +129,7 @@ public class ComponentConfigureXMLFileEditor {
             }
             if (!componentChild.isEmpty()){
                 for (int i:componentChild.getItems()){
-                    String name = componentChild.getValue(i,Child.Name);
+                    String name = componentChild.getValue(i, Child.Name);
 
                     Element child = component.addElement("child");
                     child.addAttribute("name",name);
