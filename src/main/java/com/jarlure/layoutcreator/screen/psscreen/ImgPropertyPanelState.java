@@ -3,6 +3,7 @@ package com.jarlure.layoutcreator.screen.psscreen;
 import com.jarlure.layoutcreator.entitycomponent.common.Selected;
 import com.jarlure.layoutcreator.entitycomponent.mark.Img;
 import com.jarlure.layoutcreator.entitycomponent.mark.Layer;
+import com.jarlure.layoutcreator.entitycomponent.mark.Modified;
 import com.jarlure.layoutcreator.entitycomponent.xml.ImgPos;
 import com.jarlure.layoutcreator.entitycomponent.xml.ImgUrl;
 import com.jarlure.layoutcreator.layout.PSLayout;
@@ -182,12 +183,16 @@ public class ImgPropertyPanelState extends AbstractScreenState {
             @Override
             public boolean undo() {
                 ed.setComponents(id, fromImgName, fromImgPos, fromImgUrl);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
             @Override
             public boolean redo() {
                 ed.setComponents(id, toImgName, toImgPos, toImgUrl);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
@@ -261,12 +266,16 @@ public class ImgPropertyPanelState extends AbstractScreenState {
             @Override
             public boolean undo() {
                 ed.setComponent(id, fromUrl);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
             @Override
             public boolean redo() {
                 ed.setComponent(id, toUrl);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
@@ -341,12 +350,16 @@ public class ImgPropertyPanelState extends AbstractScreenState {
             @Override
             public boolean undo() {
                 ed.setComponent(id, fromUrl);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
             @Override
             public boolean redo() {
                 ed.setComponent(id, toUrl);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 

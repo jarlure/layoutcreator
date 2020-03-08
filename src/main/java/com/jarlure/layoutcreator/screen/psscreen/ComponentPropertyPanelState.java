@@ -3,6 +3,7 @@ package com.jarlure.layoutcreator.screen.psscreen;
 import com.jarlure.layoutcreator.entitycomponent.common.Selected;
 import com.jarlure.layoutcreator.entitycomponent.common.Type;
 import com.jarlure.layoutcreator.entitycomponent.mark.Component;
+import com.jarlure.layoutcreator.entitycomponent.mark.Modified;
 import com.jarlure.layoutcreator.entitycomponent.xml.ComponentLink;
 import com.jarlure.layoutcreator.layout.PSLayout;
 import com.jarlure.layoutcreator.util.xml.ComponentConfigureXMLFileEditor;
@@ -212,6 +213,15 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
                 }
             }
 
+            private UIComponent getMouseSelected(MouseEvent mouse){
+                for (UIComponent item:typeListPanel.get(ElementProperty.class).value){
+                    if (selectConverter.isSelect(item,mouse)){
+                        return item;
+                    }
+                }
+                return null;
+            }
+
         };
 
         @Override
@@ -222,15 +232,6 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
         @Override
         public void onDisable() {
             InputManager.remove(listener);
-        }
-
-        private UIComponent getMouseSelected(MouseEvent mouse){
-            for (UIComponent item:typeListPanel.get(ElementProperty.class).value){
-                if (selectConverter.isSelect(item,mouse)){
-                    return item;
-                }
-            }
-            return null;
         }
 
         private class SelectTypeFromTypeListOperationRecord implements Record {
@@ -248,12 +249,16 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
             @Override
             public boolean undo() {
                 ed.setComponent(id,fromType);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
             @Override
             public boolean redo() {
                 ed.setComponent(id,toType);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
@@ -412,12 +417,16 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
             @Override
             public boolean undo() {
                 ed.setComponent(id,fromName);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
             @Override
             public boolean redo() {
                 ed.setComponent(id,toName);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
@@ -576,12 +585,16 @@ public class ComponentPropertyPanelState extends AbstractScreenState {
             @Override
             public boolean undo() {
                 ed.setComponent(id,fromName);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
             @Override
             public boolean redo() {
                 ed.setComponent(id,toName);
+                EntityId importedId = ed.getComponent(id,CreatedBy.class).getCreatorId();
+                ed.setComponent(importedId,new Modified());
                 return true;
             }
 
