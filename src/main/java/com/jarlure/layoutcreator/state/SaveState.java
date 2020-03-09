@@ -89,9 +89,12 @@ public class SaveState extends BaseAppState {
     }
 
     private File findXmlFile(File psdFile) {
+        String xmlPath = StringHandler.replaceExtension(psdFile.getAbsolutePath(),"xml");
+        File result = new File(xmlPath);
+        if (result.exists())return result;
         String xmlName = StringHandler.replaceExtension(psdFile.getName(), "xml");
-        File result = XmlFileCreateRecord.findRecordByName(xmlName);
-        if (result == null) result = new File(StringHandler.replaceExtension(psdFile.getAbsolutePath(), "xml"));
+        result = XmlFileCreateRecord.findRecordByName(xmlName);
+        if (result == null) result = new File(xmlPath);
         return result;
     }
 

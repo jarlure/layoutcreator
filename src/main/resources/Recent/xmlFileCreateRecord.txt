@@ -1,4 +1,1 @@
-E:\IdeaProjects\layoutcreator\src\main\resources\Interface\PSLayout\PSLayout.xml
-C:\Users\Administrator\Desktop\TIMµÇÂ¼½çÃæ.xml
-E:\IdeaProjects\pokemon\src\main\resources\Interface\startlayout\StartLayout.xml
-E:\IdeaProjects\pokemon\src\main\resources\Interface\PhoneLayout\PhoneLayout.xml
+E:\IdeaProjects\PaperDormPC\src\main\resources\Interface\StartLayout\StartLayout.xml
