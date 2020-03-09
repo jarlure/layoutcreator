@@ -75,6 +75,7 @@ public class SaveState extends BaseAppState {
             }
             File xmlFile = save.getXmlFile();{
                 if (xmlFile==null) xmlFile = findXmlFile(psdFile);
+                else if (!XmlFileCreateRecord.existRecord(psdFile,xmlFile)) XmlFileCreateRecord.addRecord(psdFile,xmlFile);
             }
             File j3oFile = save.getJ3oFile();{
                 if (j3oFile==null) j3oFile = new File(StringHandler.replaceExtension(xmlFile.getAbsolutePath(),"j3o"));
@@ -92,8 +93,7 @@ public class SaveState extends BaseAppState {
         String xmlPath = StringHandler.replaceExtension(psdFile.getAbsolutePath(),"xml");
         File result = new File(xmlPath);
         if (result.exists())return result;
-        String xmlName = StringHandler.replaceExtension(psdFile.getName(), "xml");
-        result = XmlFileCreateRecord.findRecordByName(xmlName);
+        result = XmlFileCreateRecord.findRecordByPsdFile(psdFile);
         if (result == null) result = new File(xmlPath);
         return result;
     }
@@ -114,7 +114,6 @@ public class SaveState extends BaseAppState {
         Entity data = XmlHelper.getComponentConfigureData(componentIdList,ed);
 
         if (data.isEmpty())return;
-        if (!XmlFileCreateRecord.existRecord(xmlFile)) XmlFileCreateRecord.addRecord(xmlFile);
         ComponentConfigureXMLFileEditor.writeComponentConfigure(xmlFile,data);
     }
 

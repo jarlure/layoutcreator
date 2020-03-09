@@ -11,14 +11,17 @@ public class XmlFileCreateRecord {
         return new File("src/main/resources/Recent/xmlFileCreateRecord.txt");
     }
 
-    public static File findRecordByName(String name){
+    public static File findRecordByPsdFile(File psdFile){
         File record = getRecordFile();
         if (!record.exists())return null;
-        if (!name.endsWith(".xml")) name+=".xml";
+        String filePath = psdFile.getAbsolutePath();
         TextFileReader reader = new TextFileReader(record);
         String path;
         while ((path=reader.readLine())!=null){
-            if (path.endsWith(name))break;
+            if (path.endsWith(filePath)){
+                path=reader.readLine();
+                break;
+            }
         }
         reader.close();
         if (path==null) return null;
@@ -27,22 +30,24 @@ public class XmlFileCreateRecord {
         return xmlFile;
     }
 
-    public static boolean existRecord(File xmlFile){
+    public static boolean existRecord(File psdFile,File xmlFile){
         File record = getRecordFile();
         if (!record.exists())return false;
-        String filePath=xmlFile.getAbsolutePath();
+        String filePath=psdFile.getAbsolutePath();
         TextFileReader reader = new TextFileReader(record);
         String path;
         while ((path=reader.readLine())!=null){
             if (!path.equals(filePath))continue;
+            path=reader.readLine();
             reader.close();
-            return true;
+            if (path==null)return false;
+            return path.equals(xmlFile.getAbsolutePath());
         }
         reader.close();
         return false;
     }
 
-    public static void addRecord(File xmlFile){
+    public static void addRecord(File psdFile,File xmlFile){
         File record = getRecordFile();
         File tempFile = new File(record.getParent() + "/temp" + record.getName());
         TextFileWriter writer = new TextFileWriter(tempFile);
@@ -56,6 +61,7 @@ public class XmlFileCreateRecord {
             record.delete();
         }
         if (!record.exists()) record.getParentFile().mkdirs();
+        writer.writeLine(psdFile.getAbsolutePath());
         writer.writeLine(xmlFile.getAbsolutePath());
         writer.close();
         if (!tempFile.renameTo(record)) throw new IllegalStateException();

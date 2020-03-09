@@ -54,7 +54,7 @@ public class OpenState extends BaseAppState {
             File file = open.getFile();
             if (file.getName().endsWith(".psd")) {
                 File xmlFile = new File(StringHandler.replaceExtension(file.getAbsolutePath(), "xml"));
-                if (!xmlFile.exists()) xmlFile = XmlFileCreateRecord.findRecordByName(xmlFile.getName());
+                if (!xmlFile.exists()) xmlFile = XmlFileCreateRecord.findRecordByPsdFile(file);
                 if (xmlFile == null) ed.setComponents(ed.createEntity(), new Imported(),new Name(file.getName()), new PsdFile(file));
                 else ed.setComponents(ed.createEntity(), new Imported(),new Name(file.getName()), new PsdFile(file), new XmlFile(xmlFile));
             }
