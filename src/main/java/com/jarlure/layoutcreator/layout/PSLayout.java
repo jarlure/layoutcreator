@@ -377,7 +377,7 @@ public class PSLayout extends AbstractLayout {
         setDepth(INSERT_TIP_LOWER_LINE,1.3f);
         setDepth(COMPONENT_NAME_TEXT_EDIT,1.2f);
         setDepth(COMPONENT_DIALOG,1.2f);
-        setDepth(COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM,1.2f);
+        setDepth(COMPONENT_PROPERTY_TYPE_LIST_SELECT_ITEM,1.3f);
         setDepth(COMPONENT_PROPERTY_TEXT_EDIT,1.2f);
         setDepth(PROPERTY_DIALOG,1.2f);
 
